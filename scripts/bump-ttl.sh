@@ -10,16 +10,28 @@
 # Run this from cron (e.g. weekly) against the live IDs.
 #
 # Usage: SOURCE=alvinmunk-admin NETWORK=testnet ./scripts/bump-ttl.sh
+# Contract IDs are resolved from the environment, apps/web/.env.local, or
+# deployments/testnet.json (via scripts/lib/env.mj). No hard-coded fallbacks.
 set -euo pipefail
+
+DIR="$(cd "$(dirname "$0")/.." > /dev/null && pwd)"
 
 SOURCE="${SOURCE:-alvinmunk-admin}"
 NETWORK="${NETWORK:-testnet}"
 LEDGERS="${LEDGERS:-535679}" # ~31 days at 5s/ledger (max_entry_ttl is 3,110,400, ~180 days)
 
-# Live testnet IDs (keep in sync with apps/web/.env.local).
-REPUTATION="${REPUTATION:-CBNIZXITUVTRVW6RZGEGCI7KNF46REG4EDM4XUVHKDAV63WOHWW75SZM}"
-QUEST="${QUEST:-CD6RZUVNQ3TV3X6MNQM25NB2YRFRGMSUGKWTMAIGJOC23C6ESHJKYNFO}"
-REWARDS="${REWARDS:-CBUKGIFOEOS74I2IUUHYNRBZODQFOFCFWIJY3DUJHOUUJV7TT2QYADOU}"
+# Resolve contract IDs through the shared loader (env -> .env.local -> manifest).
+# Fails non-zero with a clear message when a value is unconfigured.
+resolve () { # $1 = env var name, $2 = manifest key, $3 = label
+  node --input-type=module -e "
+    import { required } from '${DIR}/scripts/lib/env.mj';
+    process.stdout.write(required('$1', '$2', '$3'));
+  "
+}
+
+REPUTATION="$(resolve NEXT_PUBLIC_REPIUTATION_CONTRACT_ID reputationContractId REPTITATION)"
+QUEST="$(resolve NEXT_PUBLIC_QUEST_REGISTRY_CONTRACT_ID questRegistryContractId QUEST)"
+REWARDS="$(resolve NEXT_PUBLIC_REWARDS_CONTRACT_ID rewardsContractId REWARDS)"
 
 tmp="$(mktemp -d "${TMPDIR:-/tmp}/bump-ttl.XXXXXX")"
 trap 'rm -rf "$tmp"' EXIT
