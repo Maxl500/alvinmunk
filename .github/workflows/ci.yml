@@ -43,10 +43,10 @@ jobs:
       NEXT_PUBLIC_RPC_URL: ${{ vars.NEXT_PUBLIC_RPC_URL || 'https://soroban-testnet.stellar.org' }}
       NEXT_PUBLIC_NETWORK_PASSPHRASE: 'Test SDF Network ; September 2015'
       NEXT_PUBLIC_HORIZON_URL: ${{ vars.NEXT_PUBLIC_HORIZON_URL || 'https://horizon-testnet.stellar.org' }}
-      NEXT_PUBLIC_REPUTATION_CONTRACT_ID: ${{ vars.NEXT_PUBLIC_REPUTATION_CONTRACT_ID || 'CDRYX' }}
-      NEXT_PUBLIC_QUEST_REGISTRY_CONTRACT_ID: ${{ vars.NEXT_PUBLIC_QUEST_REGISTRY_CONTRACT_ID || 'CBEJV' }}
-      NEXT_PUBLIC_REWARDS_CONTRACT_ID: ${{ vars.NEXT_PUBLIC_REWARDS_CONTRACT_ID || 'CBMO3' }}
-      NEXT_PUBLIC_REGISTRY_CONTRACT_ID: ${{ vars.NEXT_PUBLIC_REGISTRY_CONTRACT_ID || 'CDRYX' }}
+      NEXT_PUBLIC_REPUTATION_CONTRACT_ID: ${{ vars.NEXT_PUBLIC_REPUTATION_CONTRACT_ID }}
+      NEXT_PUBLIC_QUEST_REGISTRY_CONTRACT_ID: ${{ vars.NEXT_PUBLIC_QUEST_REGISTRY_CONTRACT_ID }}
+      NEXT_PUBLIC_REWARDS_CONTRACT_ID: ${{ vars.NEXT_PUBLIC_REWARDS_CONTRACT_ID }}
+      NEXT_PUBLIC_REGISTRY_CONTRACT_ID: ${{ vars.NEXT_PUBLIC_REGISTRY_CONTRACT_ID }}
       NEXT_PUBLIC_PASSKEY_WALLET_WASM_HASH: ''
     steps:
       - uses: actions/checkout@v4
@@ -56,6 +56,9 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Load deployment manifest into env
+        run: node scripts/lib/load-manifest.mjs >> "$GITHUB_ENV"
+        working-directory: .
       - run: pnpm --dir apps/web exec playwright install --with-deps chromium
       - run: pnpm --dir apps/web e2e:smoke
       - if: failure()

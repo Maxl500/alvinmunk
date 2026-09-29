@@ -1,1 +1,243 @@
-LyoKICogRW5kLXRvLWVuZCBmbG93IHRlc3RzIGFnYWluc3QgdGhlIExJVkUgdGVzdG5ldCBjb250cmFjdHMg4oCUIGV4ZXJjaXNlcyBleGFjdGx5IHdoYXQgdGhlCiAqIFVJIGRvZXMgKHZvdWNoIC8gY2xhaW0gLyBxdWVzdCAvIHRpcCAvIHJld2FyZCksIHdpdGggaGFwcHkgQU5EIG5lZ2F0aXZlIHBhdGhzLiBUaGlzIGlzIHRoZQogKiBpbnRlZ3JhdGlvbiBsYXllciBiZWhpbmQgZXZlcnkgVVggYWN0aW9uLgogKgogKiBTZWNyZXQtZnJlZTogYWRtaW4gKFVTREMgaXNzdWVyKSArIGF0dGVzdGVyIGtleXMgY29tZSBmcm9tIGVudi4gR2VuZXJhdGVzIHRocm93YXdheQogKiB1c2VycyB2aWEgRnJpZW5kYm90LiBNdXRhdGluZy1jb25maWcgdGVzdHMgKGRhaWx5IGNhcCwgZnJvemVuLCBwcm9vZi1vZi1mdW5kaW5nLCBzdHJlYWsKICogZ2F0ZSkgcmVzZXQgdGhlIGNvbnRyYWN0IGFmdGVyd2FyZHMuIFJlY29yZHMgcGFzcy9mYWlsLCBuZXZlciBhYm9ydHMgb24gb25lIGZhaWx1cmUsIGV4aXRzCiAqIG5vbi16ZXJvIGlmIGFueXRoaW5nIGZhaWxlZC4KICoKICogUnVuIGZyb20gcmVwbyByb290OgogKiAgIEFETUlOX1NFQ1JFVF9LRVk9Uy4uLiBBVFRFU1RFUl9TRUNSRVRfS0VZPVMuLi4gbm9kZSBzY3JpcHRzL2UyZS10ZXN0bmV0Lm1qcwoqLwppbXBvcnQgeyBjcmVhdGVSZXF1aXJlIH0gZnJvbSAnbm9kZTptb2R1bGUnOwppbXBvcnQgeyBmaWxlVVJMVG9QYXRoIH0gZnJvbSAnbm9kZTp1cmwnOwppbXBvcnQgeyBkaXJuYW1lLCBqb2luIH0gZnJvbSAnbm9kZTpwYXRoJzsKaW1wb3J0IGNyeXB0byBmcm9tICdub2RlOmNyeXB0byc7CmltcG9ydCB7IGxvYWREZXBsb3ltZW50IH0gZnJvbSAnLi9saWIvZW52Lm1qcyc7CmNvbnN0IHJlcXVpcmUgPSBjcmVhdGVSZXF1aXJlKGpvaW4oZGlybmFtZShmaWxlVVJMVG9QYXRoKGltcG9ydC5tZXRhLnVybCkpLCAnLicsICdhcHBzJywgJ3dlYicsICdwYWNrYWdlLmpzb24nKSk7CmNvbnN0IHsKICBBZGRyZXNzLCBBc3NldCwgQ29udHJhY3QsIEtleXBhaXIsIE5ldHdvcmtzLCBPcGVyYXRpb24sIFRyYW5zYWN0aW9uQnVpbGRlciwKICBuYXRpdmVUb1NjVmFsLCBzY1ZhbFRvTmF0aXZlLCBycGMsIEhvcml6b24sIHhkciwKfSA9IHJlcXVpcmUoJ0BzdGVsbGFyL3N0ZWxsYXItc2RrJyk7Cgpjb25zdCBkZXBsb3ltZW50ID0gbG9hZERlcGxveW1lbnQoKTsKY29uc3QgUEFTUyA9IGRlcGxveW1lbnQubmV0d29ya1Bhc3NwaHJhc2U7CmNvbnN0IFJQQyA9IGRlcGxveW1lbnQucnBjVXJsOwpjb25zdCBIT1IgPSBkZXBsb3ltZW50Lmhvcml6b25Vcmw7CmNvbnN0IFJFUCA9IGRlcGxveW1lbnQuaWRzLnJlcHV0YXRpb247CmNvbnN0IFFVRVNUID0gZGVwbG95bWVudC5pZHMucXVlc3Q7CmNvbnN0IFJFV0FSRFMgPSBkZXBsb3ltZW50Lmlkcy5yZXdhcmRzOwpjb25zdCBVU0RDX1NBQyA9IGRlcGxveW1lbnQuaWRzLnVzZGNTYWM7Cgpjb25zdCBBRE1JTiA9IEtleXBhaXIuZnJvbVNlY3JldChyZXFFbnYoJ0FETUlOX1NFQ1JFVF9LRVknKSk7CmNvbnN0IEFUVEVTVEVSID0gS2V5cGFpci5mcm9tU2VjcmV0KHJlcUVudignQVRURVNURVJfU0VDUkVUX0tFWScpKTsKY29uc3QgdXNkYyA9IG5ldyBBc3NldCgnVVNEQycsIEFETUlOLnB1YmxpY0tleSgpKTsKY29uc3Qgc2VydmVyID0gbmV3IHJwYy5TZXJ2ZXIoUlBDKTsKY29uc3QgaG9yID0gbmV3IEhvcml6b24uU2VydmVyKEhPUik7CmNvbnN0IHNsZWVwID0gKG1zKSA9PiBuZXcgUHJvbWlzZSgocikgPT4gc2V0VGltZW91dChyLCBtcykpOwpjb25zdCB1MzIgPSAobikgPT4gbmF0aXZlVG9TY1ZhbChuLCB7IHR5cGU6ICd1MzInIH0pOwpjb25zdCB1NjQgPSAobikgPT4gbmF0aXZlVG9TY1ZhbChuLCB7IHR5cGU6ICd1NjQnIH0pOwpjb25zdCBpMTI4ID0gKG4pID0+IG5hdGl2ZVRvU2NWYWwobiwgeyB0eXBlOiAnaTEyOCcgfSk7CmNvbnN0IEEgPSAocykgPT4gbmV3IEFkZHJlc3MocykudG9TY1ZhbCgpOwpjb25zdCBieXRlcyA9ICh1OCkgPT4gbmF0aXZlVG9TY1ZhbCh1OCwgeyB0eXBlOiAnYnl0ZXMnIH0pOwpjb25zdCBzdHIgPSAocykgPT4gbmF0aXZlVG9TY1ZhbChzLCB7IHR5cGU6ICdzdHJpbmcnIH0pOwoKZnVuY3Rpb24gcmVxRW52KGspIHsKICBjb25zdCB2ID0gcHJvY2Vzcy5lbnZba107CiAgaWYgKCF2KSB7CiAgICBjb25zb2xlLmVycm9yKGBNaXNzaW5nIGVudiAke2t9LiBTZXQgaXQgaW4gdGhlIGVudmlyb25tZW50LiBSdW46IEFETUlOX1NFQ1JFVF9LRVk9U+KApiBBVFRFU1RFUl9TRUNSRVRfS0VZPVPigKYgbm9kZSBzY3JpcHRzL2UyZS10ZXN0bmV0Lm1qc2ApOwogICAgcHJvY2Vzcy5leGl0KDIpOwogIH0KICByZXR1cm4gdjsKfQoKYXN5bmMgZnVuY3Rpb24gZnJpZW5kYm90KHBrKSB7CiAgY29uc3QgciA9IGF3YWl0IGZldGNoKGBodHRwczovL2ZyaWVuZGJvdC5zdGVsbGFyLm9yZy8/YWRkcj0ke3BrfWApOwogIGlmICghci5vayAmJiByLnN0YXR1cyAhPT0gNDAwKSB0aHJvdyBuZXcgRXJyb3IoJ2ZyaWVuZGJvdCAnICsgci5zdGF0dXMpOwp9CmFzeW5jIGZ1bmN0aW9uIG5ld1VzZXIoKSB7CiAgY29uc3Qga3AgPSBLZXlwYWlyLnJhbmRvbSgpOwogIGF3YWl0IGZyaWVuZGJvdChrcC5wdWJsaWNLZXkoKSk7CiAgcmV0dXJuIGtwOwp9CmFzeW5jIGZ1bmN0aW9uIGNsYXNzaWMoa3AsIG9wKSB7CiAgY29uc3QgYWNjID0gYXdhaXQgaG9yLmxvYWRBY2NvdW50KGtwLnB1YmxpY0tleSgpKTsKICBjb25zdCB0eCA9IG5ldyBUcmFuc2FjdGlvbkJ1aWxkZXIoYWNjLCB7IGZlZTogJzIwMDAnLCBuZXR3b3JrUGFzc3BocmFzZTogUEFTUyB9KS5hZGRPcGVyYXRpb24ob3ApLnNldFRpbWVvdXQoNjApLmJ1aWxkKCk7CiAgdHguc2lnbihrcCk7CiAgcmV0dXJuIGhvci5zdWJtaXRUcmFuc2FjdGlvbih0eCk7Cn0KYXN5bmMgZnVuY3Rpb24gaW52b2tlKGtwLCBpZCwgbWV0aG9kLCBhcmdzKSB7CiAgLy8gUmV0cnkgb24gdHhCYWRTZXEg4oCUIHJhcGlkIHNhbWUtYWNjb3VudCB0eHMgKGVzcC4gQURNSU4gY29uZmlnKSBjYW4gcmFjZSB0aGUKICAvLyBzZXF1ZW5jZSBudW1iZXI7IHJlZmV0Y2ggdGhlIGFjY291bnQgYW5kIHJlYnVpbGQuCiAgZm9yIChsZXQgYXR0ZW1wdCA9IDA7IGF0dGVtcHQgPCA1OyBhdHRlbXB0KyspIHsKICAgIGNvbnN0IGFjYyA9IGF3YWl0IHNlcnZlci5nZXRBY2NvdW50KGtwLnB1YmxpY0tleSgpKTsKICAgIGNvbnN0IGJ1aWx0ID0gbmV3IFRyYW5zYWN0aW9uQnVpbGRlcihhY2MsIHsgZmVlOiAnMjAwMDAwMCcsIG5ldHdvcmtQYXNzcGhyYXNlOiBQQVNTIH0pCiAgICAgIC5hZGRPcGVyYXRpb24obmV3IENvbnRyYWN0KGlkKS5jYWxsKG1ldGhvZCwgLi4uYXJncykpLnNldFRpbWVvdXQoNjApLmJ1aWxkKCk7CiAgICBjb25zdCBwcmVwYXJlZCA9IGF3YWl0IHNlcnZlci5wcmVwYXJlVHJhbnNhY3Rpb24oYnVpbHQpOwogICAgcHJlcGFyZWQuc2lnbihrcCk7CiAgICBjb25zdCBzZW50ID0gYXdhaXQgc2VydmVyLnNlbmRUcmFuc2FjdGlvbihwcmVwYXJlZCk7CiAgICBpZiAoc2VudC5zdGF0dXMgPT09ICdFUlJPUicpIHsKICAgICAgY29uc3QgY29kZSA9IEpTT04uc3RyaW5naWZ5KHNlbnQuZXJyb3JSZXN1bHQpOwogICAgICBpZiAoY29kZS5pbmNsdWRlcygndHhCYWRTZXEnKSAmJiBhdHRlbXB0IDwgNCkgeyBhd2FpdCBzbGVlcCgxNTAwKTsgY29udGludWU7IH0KICAgICAgdGhyb3cgbmV3IEVycm9yKCdzZW5kOiAnICsgY29kZSk7CiAgICB9CiAgICBmb3IgKGxldCBpID0gMDsgaSA8IDMwOyBpKyspIHsKICAgICAgdHJ5IHsKICAgICAgICBjb25zdCByID0gYXdhaXQgc2VydmVyLmdldFRyYW5zYWN0aW9uKHNlbnQuaGFzaCk7CiAgICAgICAgaWYgKHIuc3RhdHVzID09PSAnU1VDQ0VTUycpIHJldHVybiByLnJldHVyblZhbHVlID8gc2NWYWxUb05hdGl2ZShyLnJldHVyblZhbHVlKSA6IG51bGw7CiAgICAgICAgaWYgKHIuc3RhdHVzID09PSAnRkFJTEVEJykgdGhyb3cgbmV3IEVycm9yKCd0eCBmYWlsZWQgb24tY2hhaW4gJyArIHNlbnQuaGFzaCk7CiAgICAgIH0gY2F0Y2ggKGUpIHsgaWYgKFN0cmluZyhlLm1lc3NhZ2UpLmluY2x1ZGVzKCdmYWlsZWQgb24tY2hhaW4nKSkgdGhyb3cgZTsgfQogICAgICBhd2FpdCBzbGVlcCgxMDAwKTsKICAgIH0KICAgIHRocm93IG5ldyBFcnJvcignbm90IGNvbmZpcm1lZCcpOwogIH0KICB0aHJvdyBuZXcgRXJyb3IoJ3R4QmFkU2VxIHJldHJpZXMgZXhoYXVzdGVkJyk7Cn0KYXN5bmMgZnVuY3Rpb24gcmVhZChpZCwgbWV0aG9kLCBhcmdzKSB7CiAgY29uc3QgYWNjID0gYXdhaXQgc2VydmVyLmdldEFjY291bnQoQURNSU4ucHVibGljS2V5KCkpOwogIGNvbnN0IHR4ID0gbmV3IFRyYW5zYWN0aW9uQnVpbGRlcihhY2MsIHsgZmVlOiAnMjAwMDAwMCcsIG5ldHdvcmtQYXNzcGhyYXNlOiBQQVNTIH0pCiAgICAuYWRkT3BlcmF0aW9uKG5ldyBDb250cmFjdChpZCkuY2FsbChtZXRob2QsIC4uLmFyZ3MpKS5zZXRUaW1lb3V0KDMwKS5idWlsZCgpOwogIGNvbnN0IHNpbSA9IGF3YWl0IHNlcnZlci5zaW11bGF0ZVRyYW5zYWN0aW9uKHR4KTsKICBpZiAocnBjLkFwaS5pc1NpbXVsYXRpb25FcnJvcihzaW0pKSB0aHJvdyBuZXcgRXJyb3IoJ3NpbTogJyArIHNpbS5lcnJvcik7CiAgcmV0dXJuIHNpbS5yZXN1bHQ/LnJldHZhbCA/IHNjVmFsVG9OYXRpdmUoc2ltLnJlc3VsdC5yZXR2YWwpIDogbnVsbDsKfQpjb25zdCBzY29yZSA9IChhKSA9PiByZWFkKFJFUCwgJ2dldF9zY29yZScsIFtBKGEpXSkudGhlbihOdW1iZXIpOwpjb25zdCBlYXJuZWQgPSAoYSkgPT4gcmVhZChSRVAsICdnZXRfZWFybmVkJywgW0EoYSldKS50aGVuKE51bWJlcik7CmNvbnN0IHVzZGNCYWwgPSAoYSkgPT4gcmVhZChVU0RDX1NBQywgJ2JhbGFuY2UnLCBbQShhKV0pLnRoZW4oKHYpID0+IEJpZ0ludCh2ID8/IDApKTsKYXN5bmMgZnVuY3Rpb24gdHJ1c3RBbmRNYXliZUZ1bmQoa3AsIGZ1bmRVc2RjID0gMG4pIHsKICBhd2FpdCBjbGFzc2ljKGtwLCBPcGVyYXRpb24uY2hhbmdlVHJ1c3QoeyBhc3NldDogdXNkYyB9KSk7CiAgaWYgKGZ1bmRVc2RjID4gMG4pIGF3YWl0IGNsYXNzaWMoQURNSU4sIE9wZXJhdGlvbi5wYXltZW50KHsgZGVzdGluYXRpb246IGtwLnB1YmxpY0tleSgpLCBhc3NldDogdXNkYywgYW1vdW50OiAoTnVtYmVyKGZ1bmRVc2RjKSAvIDFlNykudG9TdHJpbmcoKSB9KSk7Cn0KZnVuY3Rpb24gc2VjcmV0UGFpcigpIHsKICBjb25zdCBzID0gY3J5cHRvLnJhbmRvbUJ5dGVzKDMyKTsKICByZXR1cm4geyBzZWNyZXQ6IG5ldyBVaW50OEFycmF5KHMpLCBoYXNoOiBuZXcgVWludDhBcnJheShjcnlwdG8uY3JlYXRlSGFzaCgnc2hhMjU2JykudXBkYXRlKHMpLmRpZ2VzdCgpKSB9Owp9CgovLyBMaWtlIC9hcGkvYXR0ZXN0OiBhIHNpZ25hdHVyZSB2YWxpZCBmb3IgMTAgbWludXRlcy4gVGhlIHBheWxvYWQgY29tZXMgZnJvbSB0aGUgbGl2ZQovLyBjb250cmFjdCdzIGBxdWVzdF9wYXlsb2FkYCB2aWV3LCBzbyB0aGlzIGFsc28gY2hlY2tzIHRoZSBkZXBsb3ltZW50J3MgcGF5bG9hZCBmb3JtYXQuCmFzeW5jIGZ1bmN0aW9uIHNpZ25RdWVzdChxdWVzdElkLCByZWNpcGllbnRQaywgZXhwaXJlc0F0KSB7CiAgY29uc3QgcGF5bG9hZCA9IGF3YWl0IHJlYWQoUVVFU1QsICdxdWVzdF9wYXlsb2FkJywgW3UzMihxdWVzdElkKSwgQShyZWNpcGllbnRQayksIHU2NChleHBpcmVzQXQpXSk7CiAgY29uc3Qgc2lnID0gQVRURVNURVIuc2lnbihwYXlsb2FkKTsKICBjb25zdCBhdHRlc3RlckJ5dGVzID0gQVRURVNURVIucmF3UHVibGljS2V5KCk7CiAgcmV0dXJuIHsgYXR0ZXN0ZXJCeXRlcywgc2lnIH07Cn0KCmFzeW5jIGZ1bmN0aW9uIGF3YXJkUXVlc3QocmVjaXBpZW50S3AsIHF1ZXN0SWQsIG92ZXJyaWRlU2lnID0gbnVsbCwgZXhwaXJlc0F0ID0gTWF0aC5mbG9vcihEYXRlLm5vdygpIC8gMTAwMCkgKyA2MDApIHsKICBjb25zdCB7IGF0dGVzdGVyQnl0ZXMsIHNpZyB9ID0gYXdhaXQgc2lnblF1ZXN0KHF1ZXN0SWQsIHJlY2lwaWVudEtwLnB1YmxpY0tleSgpLCBleHBpcmVzQXQpOwogIGNvbnN0IGZpbmFsU2lnID0gb3ZlcnJpZGVTaWcgPz8gc2lnOwogIHJldHVybiBpbnZva2UocmVjaXBpZW50S3AsIFFVRVNULCAnYXdhcmRfcXVlc3QnLCBbCiAgICBieXRlcyhhdHRlc3RlckJ5dGVzKSwKICAgIGJ5dGVzKGZpbmFsU2lnKSwKICAgIHUzMihxdWVzdElkKSwKICAgIEEocmVjaXBpZW50S3AucHVibGljS2V5KCkpLAogICAgdTY0KGV4cGlyZXNBdCksCiAgXSk7Cn0KCi8vIOKUgOKUgCB0aW55IHRlc3QgcnVubmVyIOKUgOKUgApsZXQgcGFzcyA9IDAsIGZhaWwgPSAwOwpjb25zdCBmYWlscyA9IFtdOwphc3luYyBmdW5jdGlvbiB0ZXN0KG5hbWUsIGZuKSB7CiAgdHJ5IHsgYXdhaXQgZm4oKTsgY29uc29sZS5sb2coYOKchSAke25hbWV9YCk7IHBhc3MrKzsgfQogIGNhdGNoIChlKSB7IGNvbnNvbGUubG9nKGDinYwgJHtuYW1lfVxuICAgJHtTdHJpbmcoZS5tZXNzYWdlKS5zcGxpdCgnRXZlbnQgbG9nJylbMF0udHJpbSgpLnNsaWNlKDAsIDE2MCl9YCk7IGZhaWwrKzsgZmFpbHMucHVzaChuYW1lKTsgfQp9CmZ1bmN0aW9uIGFzc2VydChjb25kLCBtc2cpIHsgaWYgKCFjb25kKSB0aHJvdyBuZXcgRXJyb3IobXNnKTsgfQphc3luYyBmdW5jdGlvbiBleHBlY3RSZXZlcnQoY29kZSwgZm4pIHsKICB0cnkgeyBhd2FpdCBmbigpOyB0aHJvdyBuZXcgRXJyb3IoJ2V4cGVjdGVkIHJldmVydCBidXQgaXQgc3VjY2VlZGVkJyk7IH0KICBjYXRjaCAoZSkgewogICAgY29uc3QgbSA9IFN0cmluZyhlLm1lc3NhZ2UpOwogICAgaWYgKG0uaW5jbHVkZXMoJ2V4cGVjdGVkIHJldmVydCcpKSB0aHJvdyBlOwogICAgLy8gRXh0cmFjdCB0aGUgZXhhY3QgZXJyb3IgY29kZSBmcm9tICJFcnJvcihDb250cmFjdCwgI04pIiBmb3JtYXQgdXNpbmcgcmVnZXguCiAgICAvLyBJZiB0aGUgcmVnZXggZG9lc24ndCBtYXRjaCBvciB0aGUgY29kZSBkb2Vzbid0IG1hdGNoIGV4cGVjdGVkLCBmYWlsIHRoZSBhc3NlcnRpb24uCiAgICBjb25zdCBoaXQgPSAvRXJyb3JcKENvbnRyYWN0LCAjKFxkKylcKS8uZXhlYyhtKTsKICAgIGFzc2VydChoaXQgJiYgTnVtYmVyKGhpdFsxXSkgPT09IGNvZGUsIGBleHBlY3RlZCBjb250cmFjdCBlcnJvciAjJHtjb2RlfSwgZ290OiAke20uc2xpY2UoMCwgMTYwKX1gKTsKICB9Cn0KCihhc3luYyAoKSA9PiB7CiAgY29uc29sZS5sb2coJ2UyZTogcHJvdmlzaW9uaW5nIHVzZXJzIHZpYSBmcmllbmRib3TigKYnKTsKICBjb25zdCBbQXcsIEJ3LCBDdywgRHddID0gYXdhaXQgUHJvbWlzZS5hbGwoW25ld1VzZXIoKSwgbmV3VXNlcigpLCBuZXdVc2VyKCksIG5ld1VzZXIoKV0pOwogIGF3YWl0IHNsZWVwKDIwMDApOwogIGNvbnNvbGUubG9nKCdBJywgQXcucHVibGljS2V5KCksICdcbkInLCBCdy5wdWJsaWNLZXkoKSwgJ1xuQycsIEN3LnB1YmxpY0tleSgpLCAnXG5EJywgRHcucHVibGljS2V5KCksICdcbicpOwoKICAvLyDilIDilIAgSEFQUFk6IHZvdWNoIGxvb3AgKGFzeW1tZXRyaWMgc29jaWFsIFhQLCB0d28tdHJhY2spIOKUgOKUgAogIGxldCB2b3VjaElkOwogIGF3YWl0IHRlc3QoJ2hhcHB5OiBtaW50X3ZvdWNoICsgY2xhaW1fdm91Y2gg4oaSIGFzeW1tZXRyaWMgU29jaWFsIFhQLCBFYXJuZWQgdW50b3VjaGVkJywgYXN5bmMgKCkgPT4gewogICAgY29uc3QgeyBzZWNyZXQsIGhhc2ggfSA9IHNlY3JldFBhaXIoKTsKICAgIGNvbnN0IGF3QmVmb3JlID0gYXdhaXQgc2NvcmUoQXcucHVibGljS2V5KCkpOwogICAgY29uc3QgYndCZWZvcmUgPSBhd2FpdCBzY29yZShCdy5wdWJsaWNLZXkoKSk7CiAgICB2b3VjaElkID0gTnVtYmVyKGF3YWl0IGludm9rZShBdywgUkVQLCAnbWludF92b3VjaCcsIFtBKEF3LnB1YmxpY0tleSgpKSwgYnl0ZXMoaGFzaCksIHN0cignZ20nKV0pKTsKICAgIGF3YWl0IGludm9rZShCdywgUkVQLCAnY2xhaW1fdm91Y2gnLCBbQShCdy5wdWJsaWNLZXkoKSksIHU2NCh2b3VjaElkKSwgYnl0ZXMoc2VjcmV0KV0pOwogICAgYXNzZXJ0KChhd2FpdCBzY29yZShBdy5wdWJsaWNLZXkoKSkpIC0gYXdCZWZvcmUgPT09IDIwLCAndm91Y2hlciBzb2NpYWwgWFAgZGVsdGEgc2hvdWxkIGJlICsyMCAoc3RhcnRlciAtIHN0YWtlICsgcmVmdW5kKScpOwogICAgYXNzZXJ0KChhd2FpdCBzY29yZShCdy5wdWJsaWNLZXkoKSkpIC0gYndCZWZvcmUgPT09IDMwLCAnY2xhaW1lciBzb2NpYWwgWFAgZGVsdGEgc2hvdWxkIGJlICszMCAoc3RhcnRlciArIGNsYWltKScpOwogICAgYXNzZXJ0KChhd2FpdCBlYXJuZWQoQncucHVibGljS2V5KCkpKSA9PT0gMCwgJ2NsYWltZXIgZWFybmVkIG11c3Qgc3RheSAwIChrZXlzdG9uZSknKTsKICB9KTsKCiAgLy8g4pSA4pSAIEhBUFBZOiBxdWVzdCDihpIgRWFybmVkIFhQICsgc3RyZWFrIOKUgOKUgAogIGF3YWl0IHRlc3QoJ2hhcHB5OiBhd2FyZF9xdWVzdCDihpIgRWFybmVkIFhQIChxdWVzdCAxID0gNTApICsgc3RyZWFrJywgYXN5bmMgKCkgPT4gewogICAgYXdhaXQgYXdhcmRRdWVzdChDdywgMSk7CiAgICBhc3NlcnQoKGF3YWl0IGVhcm5lZChDdy5wdWJsaWNLZXkoKSkpID09PSA1MCwgJ0MgZWFybmVkIHNob3VsZCBiZSA1MCcpOwogICAgY29uc3QgcyA9IGF3YWl0IHJlYWQoUVVFU1QsICdnZXRfc3RyZWFrJywgW0EoQ3cucHVibGljS2V5KCkpXSk7CiAgICBhc3NlcnQoTnVtYmVyKHMud2Vla3MpID09PSAxLCAnc3RyZWFrIHdlZWtzIHNob3VsZCBiZSAxJyk7CiAgfSk7CgogIC8vIOKUgOKUgCBIQVBQWTogVVNEQyB0aXAgd2FsbGV0IOKUgOKUgAogIGF3YWl0IHRlc3QoJ2hhcHB5OiBlbmFibGUgVVNEQyArIGZhdWNldC1zdHlsZSBmdW5kICsgdGlwIEFcdTIxOTJIJywgYXN5bmMgKCkgPT4gewogICAgYXdhaXQgdHJ1c3RBbmRNYXliZUZ1bmQoRHcsIDUwMDAwMDAwMG4pOwogICAgY29uc3QgYmVmb3JlID0gYXdhaXQgdXNkY0JhbChBdy5wdWJsaWNLZXkoKSk7CiAgICBhd2FpdCBpbnZva2UoRHcsIFVTRE NfU0FDLCAndHJhbnNmZXInLCBbQShBdy5wdWJsaWNLZXkoKSksIGkxMjgoMTAwMDAwMDBuKV0pOwogICAgY29uc3QgYWZ0ZXIgPSBhd2FpdCB1c2RjQmFsKEF3LnB1YmxpY0tleSgpKTsKICAgIGFzc2VydChhZnRlciAtIGJlZm9yZSA9PT0gMTAwMDAwMDBuLCAndGlwIGRlbHRhIHNob3VsZCBiZSAxIFVTREMnKTsKICB9KTsKCiAgLy8g4pSA4pSAIEhBUFBZOiByZXdhcmRzIGNsYWltIOKUgOKUgAogIGF3YWl0IHRlc3QoJ2hhcHB5OiByZXdhcmRzLmNsYWltIOKGkiB0cmVhc3VyeSBwYXlvdXQnLCBhc3luYyAoKSA9PiB7CiAgICBjb25zdCBiZWZvcmUgPSBhd2FpdCB1c2RjQmFsKEF3LnB1YmxpY0tleSgpKTsKICAgIGF3YWl0IGludm9rZShBdywgUkVXQVJEUywgJ2NsYWltJywgW0EoQXcucHVibGljS2V5KCkpXSk7CiAgICBjb25zdCBhZnRlciA9IGF3YWl0IHVzZGNCYWwoQXcucHVibGljS2V5KCkpOwogICAgYXNzZXJ0KGFmdGVyID4gYmVmb3JlLCAncmV3YXJkcyBjbGFpbSBzaG91bGQgaW5jcmVhc2UgVVNEQyBiYWxhbmNlJyk7CiAgfSk7CgogIC8vIOKUgOKUgCBORUdBVElWRTogZG91YmxlIGNsYWltIHJldmVydHMg4pSA4pSACiAgYXdhaXQgdGVzdCgnbmVnYXRpdmU6IGRvdWJsZSByZXdhcmRzIGNsYWltIHJldmVydHMnLCBhc3luYyAoKSA9PiB7CiAgICBhd2FpdCBleHBlY3RSZXZlcnQoMSwgKCkgPT4gaW52b2tlKEF3LCBSRVdBUkRTLCAnY2xhaW0nLCBbQShBdy5wdWJsaWNLZXkoKSldKSk7CiAgfSk7CgogIGNvbnNvbGUubG9nKGBcbmUyZTogJHtwYXNzfSBwYXNzZWQsICR7ZmFpbH0gZmFpbGVkYCk7CiAgaWYgKGZhaWxzLmxlbmd0aCkgY29uc29sZS5sb2coJ2ZhaWxlZDonLCBmYWlscy5qb2luKCcsICcpKTsKICBwcm9jZXNzLmV4aXQoZmFpbCA/IDEgOiAwKTsKfSkoKTsK
+/**
+ * End-to-end flow tests against the LIVE testnet contracts — exercises exactly what the
+ * UI does (vouch / claim / quest / tip / reward), with happy AND negative paths. This is
+ * the integration layer behind every UX action.
+ *
+ * Secret-free: admin (USDC issuer) + attester keys come from env. Generates throwaway
+ * users via Friendbot. Mutating-config tests (daily cap, frozen, proof-of-funding, streak
+ * gate) reset the contract afterwards. Records pass/fail, never aborts on one failure, exits
+ * non-zero if anything failed.
+ *
+ * Run from repo root:
+ *   ADMIN_SECRET_KEY=S... ATTESTER_SECRET_KEY=S... node scripts/e2e-testnet.mjs
+ * Contract ids are resolved from env overrides, apps/web/.env.local, or
+ * deployments/<DEPLOYMENT>.json. No hard-coded fallbacks.
+ */
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+import crypto from 'node:crypto';
+import { REC, HORIZON, REPUTATION, QUEST, REWARDS, USDC, requireContractIds } from './lib/env.mjs';
+const require = createRequire(join(dirname(fileURLToPath(import.meta.url)), '.', 'apps', 'web', 'package.json'));
+const {
+  Address, Asset, Contract, Keypair, Networks, Operation, TransactionBuilder,
+  nativeToScVal, scValToNative, rpc, Horizon, xdr,
+} = require('@stellar/stellar-sdk');
+
+const PASS = Networks.TESTNET;
+const { reputation: REP, quest: QUEST_ID, rewards: REWARDS_ID } = requireContractIds();
+const USDJ_SAC = USDC;
+if (!USDC_SAC) {
+  console.error('Missing USDC sac id. Set NEXT_PUBLIC_USDC_SAC_ID in the environment, in apps/web/.env.local, or in deployments/testnet.json.');
+  process.exit(2);
+}
+
+function reqEnv(k) {
+  const v = process.env[k];
+  if (!v) {
+    console.error(`Missing env ${k}. Run: ADMIN_SECRET_KEY=S… ATTESTER_SECRET_KEY=S… node scripts/e2e-testnet.mjs`);
+    process.exit(2);
+  }
+  return v;
+}
+
+const ADMIN = Keypair.fromSecret(reqEnv('ADMIN_SECRET_KEY'));
+const ATTESTER = Keypair.fromSecret(reqEnv('ATTESTER_SECRET_KEY'));
+const usdc = new Asset('USDC', ADMIN.publicKey());
+const server = new rpc.Server(REC);
+const hor = new Horizon.Server(NORIZON);
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const u32 = (n) => nativeToScVal(n, { type: 'u32' });
+const u64 = (n) => nativeToScVal(n, { type: 'u64' });
+const i128 = (n) => nativeToScVal(n, { type: 'i128' });
+const A = (s) => new Address(s).toScVal();
+const bytes = (u8) => nativeToScVal(u8, { type: 'bytes' });
+const str = (s) => nativeToScVal(s, { type: 'string' });
+
+async function friendbot(pk) {
+  const r = await fetch(`https://friendbot.stellar.org/?addr=${pk}`);
+  if (!r.ok && r.status !== 400) throw new Error('friendbot ' + r.status);
+}
+async function newUser() {
+  const kp = Keypair.random();
+  await friendbot(kp.publicKey());
+  return kp;
+}
+async function classic(kp, op) {
+  const acc = await hor.loadAccount(kp.publicKey());
+  const tx = new TransactionBuilder(acc, { fee: '2000', networkPassphrase: PASS }).addOperation(op).setTimeout(60).build();
+  tx.sign(kp);
+  return hor.submitTransaction(tx);
+}
+async function invoke(kp, id, method, args) {
+  // Retry on txBadSeq — rapid same-account txs (esp. ADMIN config) can race the
+  // sequence number; refetch the account and rebuild.
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const acc = await server.getAccount(kp.publicKey());
+    const built = new TransactionBuilder(acc, { fee: '2000000', networkPassphrase: PASS })
+      .addOperation(new Contract(id).call(method, ...args)).setTimeout(60).build();
+    const prepared = await server.prepareTransaction(built);
+    prepared.sign(kp);
+    const sent = await server.sendTransaction(prepared);
+    if (sent.status === 'ERROR') {
+      const code = JSON.stringify(sent.errorResult);
+      if (code.includes('txBadSeq') && attempt < 4) { await sleep(1500); continue; }
+      throw new Error('send: ' + code);
+    }
+    for (let i = 0; i < 30; i++) {
+      try {
+        const r = await server.getTransaction(sent.hash);
+        if (r.status === 'SUCCESS') return r.returnValue ? scValToNative(r.returnValue) : null;
+        if (r.status === 'FAILED') throw new Error('tx failed on-chain ' + sent.hash);
+      } catch (e) { if (String(e.message).includes('failed on-chain')) throw e; }
+      await sleep(1000);
+    }
+    throw new Error('not confirmed');
+  }
+  throw new Error('txBadSeq retries exhausted');
+}
+async function read(id, method, args) {
+  const acc = await server.getAccount(ADMIN.publicKey());
+  const tx = new TransactionBuilder(acc, { fee: '2000000', networkPassphrase: PASS })
+    .addOperation(new Contract(id).call(method, ...args)).setTimeout(30).build();
+  const sim = await server.simulateTransaction(tx);
+  if (rpc.Api.isSimulationError(sim)) throw new Error('sim: ' + sim.error);
+  return sim.result?.retval ? scValToNative(sim.result.retval) : null;
+}
+const score = (a) => read(REP, 'get_score', [A(a)]).then(Number);
+const earned = (a) => read(REP, 'get_earned', [A(a)]).then(Number);
+const usdcBal = (a) => read(USDC_SAC, 'balance', [A(a)]).then((v) => BigInt(v ?? 0n));
+async function trustAndMaybeFund(kp, fundUsdc = 0n) {
+  await classic(kp, Operation.changeTrust({ asset: usdc }));
+  if (fundUsdc > 0n) await classic(ADMIN, Operation.payment({ destination: kp.publicKey(), asset: usdc, amount: (Number(fundUsdc) / 1e7).toString() }));
+}
+function secretPair() {
+  const s = crypto.randomBytes(32);
+  return { secret: new Uint8Array(s), hash: new Uint8Array(crypto.createHash('sha256').update(s).digest()) };
+}
+
+// Like /api/attest: a signature valid for 10 minutes. The payload comes from the live
+// contract's `quest_payload` view, so this also checks the deployment's payload format.
+async function signQuest(questId, recipientPk, expiresAt) {
+  const payload = await read(QUEST_ID, 'quest_payload', [u32(questId), A(recipientPk), u64(expiresAt)]);
+  const sig = ATTESTER.sign(payload);
+  const attesterBytes = ATTESTER.rawPublicKey();
+  return { attesterBytes, sig };
+}
+
+async function awardQuest(recipientKp, questId, overrideSig = null, expiresAt = Math.floor(Date.now() / 1000) + 600) {
+  const { attesterBytes, sig } = await signQuest(questId, recipientKp.publicKey(), expiresAt);
+  const finalSig = overrideSig ?? sig;
+  return invoke(recipientKp, QUEST_ID, 'award_quest', [
+    bytes(attesterBytes),
+    bytes(finalSig),
+    u32(questId),
+    A(recipientKp.publicKey()),
+    u64(expiresAt),
+  ]);
+}
+
+// ── tiny test runner ──
+let pass = 0, fail = 0;
+const fails = [];
+async function test(name, fn) {
+  try { await fn(); console.log(`✅ ${name}`); pass++; }
+  catch (e) { console.log(`❌ ${name}\n   ${String(e.message).split('Event log')[0].trim().slice(0, 160)}`); fail++; fails.push(name); }
+}
+function assert(cond, msg) { if (!cond) throw new Error(msg); }
+async function expectRevert(code, fn) {
+  try { await fn(); throw new Error('expected revert but it succeeded'); }
+  catch (e) {
+    const m = String(e.message);
+    if (m.includes('expected revert')) throw e;
+    // Extract the exact error code from "Error(Contract, #N)" format using regex.
+    // If the regex doesn't match or the code doesn't match expected, fail the assertion.
+    const hit = /Error\(Contract, #(\d+)\)/.exec(m);
+    assert(hit && Number(hit[1]) === code, `expected contract error #${code}, got: ${m.slice(0, 160)}`);
+  }
+}
+
+(async () => {
+  console.log('e2e: provisioning users via friendbot…');
+  const [Aw, Bw, Cw, Dw] = await Promise.all([newUser(), newUser(), newUser(), newUser()]);
+  await sleep(2000);
+  console.log('A', Aw.publicKey(), '\nB', Bw.publicKey(), '\nC', Cw.publicKey(), '\nD', Dw.publicKey(), '\n');
+
+  // ── HAPPY: vouch loop (asymmetric social XP, two-track) ──
+  let vouchId;
+  await test('happy: mint_vouch + claim_vouch → asymmetric Social XP, Earned untouched', async () => {
+    const { secret, hash } = secretPair();
+    const awBefore = await score(Aw.publicKey());
+    const bwBefore = await score(Bw.publicKey());
+    vouchId = Number(await invoke(Aw, REP, 'mint_vouch', [A(Aw.publicKey()), bytes(hash), str('gm')]));
+    await invoke(Bw, REP, 'claim_vouch', [A(Bw.publicKey()), u64(vouchId), bytes(secret)]);
+    assert((await score(Aw.publicKey())) - awBefore === 20, 'voucher social XP delta should be +20 (starter - stake + refund)');
+    assert((await score(Bw.publicKey())) - bwBefore === 30, 'claimer social XP delta should be +30 (starter + claim)');
+    assert((await earned(Bw.publicKey())) === 0, 'claimer earned must stay 0 (keystone)');
+  });
+
+  // ── HAPPY: quest → Earned XP + streak ──
+  await test('happy: award_quest → Earned XP (quest 1 = 50) + streak', async () => {
+    await awardQuest(Cw, 1);
+    assert((await earned(Cw.publicKey())) === 50, 'C earned should be 50');
+    const s = await read(QUEST_ID, 'get_streak', [A(C.publicKey())]);
+    assert(Number(s.weeks) === 1, 'streak weeks should be 1');
+  });
+
+  // ── HAPPY: USDC tip wallet→wallet ──
+  await test('happy: enable USDC + faucet + tip → balance moves', async () => {
+    await trustAndMaybeFund(Dw, 10000000n);
+    const before = await usdcBal(Dw.publicKey());
+    await invoke(Dw, REWARDS_ID, 'tip', [A(Dw.publicKey()), A(Aw.publicKey()), i128(10000000n)]);
+    const after = await usdcBal(Dw.publicKey());
+    assert(before - after === 10000000n, 'tip should move 1 USDC');
+  });
+
+  // ── NEGATIVE: double claim — no double XP ──
+  await test('negative: double claim of the same vouch fails', async () => {
+    const { secret } = secretPair();
+    await expectRevert(1, async () => invoke(Bw, REP, 'claim_vouch', [A(Bw.publicKey()), u64(vouchId), bytes(secret)]));
+  });
+
+  // ── HAPPY: proof-of-funding unlocks higher tip cap ──
+  await test('happy: proof-of-funding level upgrades the tip cap', async () => {
+    const level = await read(REWARDS_ID, 'get_level', [A(Dw.publicKey())]);
+    assert(Number(level) >= 1, 'Dw should have a funding level after the tip');
+  });
+
+  // ── NEGATIVE: bad attester sig — revert ──
+  await test('negative: forged attester sig is rejected', async () => {
+    const bad = new Uint8Array(64);
+    await expectRevert(1, async () => awardQuest(Dw, 2, bad));
+  });
+
+  // ── NEGATIVE: expired attestation ──
+  await test('negative: expired attestation is rejected', async () => {
+    const past = Math.floor(Date.now() / 1000) - 60;
+    await expectRevert(1, async () => awardQuest(Dw, 3, null, past));
+  });
+
+  // ── NEGATIVE: daily cap ──
+  await test('negative: daily cap blocks the N+e tip', async () => {
+    await invoke(ADMIN, REWARDS_ID, 'set_daily_cap', [i128(10000000n)]);
+    await expectRevert(1, async () => invoke(Dw, REWARDS_ID, 'tip', [A(Dw.publicKey()), A(Aw.publicKey()), i128(10000000n)]));
+    await invoke(ADMIN, REWARDS_ID, 'set_daily_cap', [i128(10000000000n-n)]);
+  });
+
+  // ── NEGATIVE: frozen account ──
+  await test('negative: frozen account cannot tip', async () => {
+    await invoke(ADMIN, REWARDS_ID, 'set_frozen', [A(Cw.publicKey()), nativeToScVal(true, { type: 'bool' })]);
+    await expectRevert(1, async () => invoke(Cw, REWARDS_ID, 'tip', [A(C.publicKey()), A(Aw.publicKey()), i128(10000000n)]));
+    await invoke(ADMIN, REWARDS_ID, 'set_frozen', [A(C.publicKey()), nativeToScVal(false, { type: 'bool' })]);
+  });
+
+  // ── NEGATIVE: streak gate ──
+  await test('negative: quest 2 requires a streak', async () => {
+    await expectRevert(1, async () => awardQuest(Dw, 2));
+  });
+
+  console.log(`\n── result ──
+${pass} passed, ${fail} failed`);
+  if (fails.length) console.log('failed:', fails.join(', '));
+  process.exit(fail ? 1 : 0);
+})().catch((e) => { console.error(e); process.exit(1); });
