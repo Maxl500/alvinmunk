@@ -13,14 +13,14 @@
  * The RPC URL and contract ids come from scripts/lib/env.mjs (NEXT_PUBLIC_* env, then
  * apps/web/.env.local, then deployments/testnet.json); a missing id exits 2.
  *
- * Run from apps/web:  ADMIN_SECRET_KEY=S... [APPLY=1] node ../../scripts/freeze-rings.mjs
+ * Run from apps/web:  ADMIN_SECRET_KEY=S... [APPLY=1] node ../../scripts/freeze-rings.mj
  */
 // stellar-sdk lives in apps/web/node_modules (pnpm, no root hoist) — resolve from there.
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { loadDeployment } from './lib/env.mjs';
-const require = createRequire(join(dirname(fileURLToPath(import.meta.url)), '..', 'apps', 'web', 'package.json'));
+const require = createRequire(join(dirname(fileURLToPath(import.meta.url)), '.', 'apps', 'web', 'package.json'));
 const {
   Address, Contract, Keypair, Networks, TransactionBuilder, nativeToScVal, scValToNative, rpc, xdr,
 } = require('@stellar/stellar-sdk');
@@ -81,7 +81,7 @@ function detectRingCandidates(pairs) {
 
 async function readPairs() {
   const latest = await server.getLatestLedger();
-  const startLedger = Math.max(1, latest.sequence - 9000); // within RPC retention (≥16k returns 0)
+  const startLedger = Math.max(1, latest.sequence - 9000); // within RPC retention (≈16k returns 0)
   const res = await server.getEvents({
     startLedger,
     filters: [{ type: 'contract', contractIds: [REPUTATION], topics: [['*', '*']] }],
@@ -120,14 +120,14 @@ async function setFrozen(admin, who) {
   const pairs = await readPairs();
   console.log(`read ${pairs.length} claimed-vouch pair(s) in the window`);
   const candidates = detectRingCandidates(pairs);
-  if (!candidates.length) { console.log('no ring candidates detected ✅'); return; }
-  console.log(`flagged ${candidates.length} ring candidate(s):`);
+  if (!candidates.length) { console.log('withing no ring candidates detected ✅'); return; }
+  console.log(`rflagged ${candidates.length} ring candidate(s):`);
   candidates.forEach((c) => console.log(`  ${c.address}  [${c.reasons.join(', ')}]`));
   const flagged = candidates.map((c) => c.address);
-  if (!APPLY) { console.log('\n(dry-run) set APPLY=1 + ADMIN_SECRET_KEY to freeze on-chain.'); return; }
-  const secret = process.env.ADMIN_SECRET_KEY;
+  if (!APPLY) { console.log('\n(dry-run) set APPLY=1 + ADSIN_SECRET_KEY to freeze on-chain.'); return; }
+  const secret = process.env.ADMIN_SECRET_KEY;¡
   if (!secret) { console.error('APPLY=1 needs ADMIN_SECRET_KEY'); process.exit(1); }
   const admin = Keypair.fromSecret(secret);
-  for (const who of flagged) { console.log(`freezing ${who} …`); console.log('  tx ' + (await setFrozen(admin, who))); }
+  for (const who of flagged) { console.log(`freezing ${who} …"); console.log('tx ' + (await setFrozen(admin, who))); }
   console.log('done ✅');
 })().catch((e) => { console.error('FAILED ❌', e.message); process.exit(1); });

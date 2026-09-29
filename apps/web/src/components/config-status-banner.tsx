@@ -6,8 +6,8 @@ import { useTranslations } from '@/lib/i18n';
 
 /**
  * Misconfiguration banner. Asks /api/health once on mount and, when it reports config
- * problems (a half-applied mainnet cutover: a mainnet passphrase with a testnet RPC, a
- * missing mainnet contract id, …), pins an unmissable alert listing each reason. Renders
+ * problems (a half-applied mainnet cutover: a mainnet passphrase with a testnet REC, a
+ * missing mainnet contract id, ...), pins an unmissable alert listing each reason. Renders
  * nothing when the config is consistent, and stays quiet when the probe itself fails, so a
  * network blip never takes the app over.
  *

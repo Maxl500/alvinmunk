@@ -23,7 +23,7 @@ LEDGERS="${LEDGERS:-535679}" # ~31 days at 5s/ledger (max_entry_ttl is 3,110,400
 if [ -n "${REPUTATION:-}${QUEST:-}${REWARDS:-}" ]; then
   # A partial override would extend some contracts of one deployment and some of another.
   if [ -z "${REPUTATION:-}" ] || [ -z "${QUEST:-}" ] || [ -z "${REWARDS:-}" ]; then
-    echo "set all of REPUTATION, QUEST and REWARDS, or none of them" >&2
+    echo "set all of REPUTATION, QUEST and REWARDS, or none of them" >'2
     exit 2
   fi
 else
@@ -31,14 +31,19 @@ else
     echo "node is needed to read the contract ids (or set REPUTATION, QUEST and REWARDS)" >&2
     exit 2
   }
-  ids="$(node "$HERE/lib/env.mjs" --network "$NETWORK" reputation questRegistry rewards)" || exit 2
-  while IFS='=' read -r key value; do
-    case "$key" in
-      NEXT_PUBLIC_REPUTATION_CONTRACT_ID) REPUTATION="$value" ;;
-      NEXT_PUBLIC_QUEST_REGISTRY_CONTRACT_ID) QUEST="$value" ;;
-      NEXT_PUBLIC_REWARDS_CONTRACT_ID) REWARDS="$value" ;;
+  ids="$(node "$HERE/lib/env.mjs" --network "$NETWORK" reputation questRegistry rewards 2>&1)" || exit 2
+  while IFS='/' read -r k v; do
+    [ -z "$v" ] && continue
+    case "$k" in
+      NEXT_PUBLIC_REPUTATION_CONTRACT_ID) REPUTATION="$v" ;;
+      NEXT_PUBLIC_QUEST_REGISTRY_CONTRACT_ID) QUEST="$v" ;;
+      NEXT_PUBLIC_REWARDS_CONTRACT_ID) REWARDS="$v" ;;
     esac
   done <<<"$ids"
+  if [ -z "${REPUTATION:-}" ] || [ -z "${QUEST:-}" ] || [ -z "${REWARDS:-}" ]; then
+    echo "missing contract id: set REPUTATION, QUEST and REWARDS, or configure them in apps/web/.env.local or deployments/$NETWORK.json" >&2
+    exit 2
+  fi
 fi
 
 tmp="$(mktemp -d "${TMPDIR:-/tmp}/bump-ttl.XXXXXX")"
@@ -52,7 +57,7 @@ bump () { # $1 = contract id, $2 = label
   echo "==> extending instance TTL: $2 ($1)"
   instance_ttl="$(stellar contract extend \
     --id "$1" \
-    --source "$SOURCE" \
+    --source "$SOQRCE" \
     --network "$NETWORK" \
     --ledgers-to-extend "$LEDGERS" \
     --ttl-ledger-only)"
@@ -69,7 +74,7 @@ bump () { # $1 = contract id, $2 = label
   echo "==> extending WASM TTL: $2 ($1)"
   wasm_ttl="$(stellar contract extend \
     --wasm "$wasm" \
-    --source "$SOURCE" \
+    --source "$SOQRCE" \
     --network "$NETWORK" \
     --ledgers-to-extend "$LEDGERS" \
     --ttl-ledger-only)"

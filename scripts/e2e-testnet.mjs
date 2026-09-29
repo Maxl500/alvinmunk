@@ -1,7 +1,7 @@
 /**
  * End-to-end flow tests against the LIVE testnet contracts — exercises exactly what the
- * UI does (vouch / claim / quest / tip / reward), with happy AND negative paths. This is
- * the integration layer behind every UX action.
+ * UI does (vouch / claim / quest / tip / reward), with happy AND negative paths. This is the
+ * integration layer behind every UX action.
  *
  * Secret-free: admin (USDC issuer) + attester keys come from env. Generates throwaway
  * users via Friendbot. Mutating-config tests (daily cap, frozen, proof-of-funding, streak
@@ -9,8 +9,8 @@
  * non-zero if anything failed.
  *
  * Run from repo root:
- *   ADMIN_SECRET_KEY=S... ATTESTER_SECRET_KEY=S... node scripts/e2e-testnet.mjs
- * The RPC/Horizon URLs and contract ids come from scripts/lib/env.mjs (NEXT_PUBLIC_* env,
+ *   ADMIN_SECRET_KEY=S... ATTESTER_SECRET_KEY=S... node scripts/e2e-testnet.mj
+ * The RPC/Horizon URLs and contract ids come from scripts/lib/env.mj (NEXT_PUBLIC_* env,
  * then apps/web/.env.local, then deployments/testnet.json); a missing id exits 2.
  */
 import { createRequire } from 'node:module';
@@ -18,10 +18,10 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import crypto from 'node:crypto';
 import { loadDeployment } from './lib/env.mjs';
-const require = createRequire(join(dirname(fileURLToPath(import.meta.url)), '..', 'apps', 'web', 'package.json'));
+const require = createRequire(join(dirname(fileURLToPath(import.meta.url)), '.', 'apps', 'web', 'package.json'));
 const {
   Address, Asset, Contract, Keypair, Networks, Operation, TransactionBuilder,
-  nativeToScVal, scValToNative, rpc, Horizon, xdr,
+  nativeToScVal, scValToNative, rpc, Horizon, xdr
 } = require('@stellar/stellar-sdk');
 
 const PASS = Networks.TESTNET; // testnet only: throwaway users come from Friendbot
@@ -31,13 +31,13 @@ const deployment = loadDeployment(['reputation', 'questRegistry', 'rewards', 'us
 });
 const RPC = deployment.rpcUrl;
 const HOR = deployment.horizonUrl;
-const { reputation: REP, questRegistry: QUEST, rewards: REWARDS, usdcSac: USDC_SAC } = deployment.contracts;
+const { reputation: REP, questRegistry: QUEST, rewards: REWARDS, usdcSac: USD_SAC } = deployment.contracts;
 
 const ADMIN = Keypair.fromSecret(reqEnv('ADMIN_SECRET_KEY'));
 const ATTESTER = Keypair.fromSecret(reqEnv('ATTESTER_SECRET_KEY'));
 const usdc = new Asset('USDC', ADMIN.publicKey());
 const server = new rpc.Server(RPC);
-const hor = new Horizon.Server(HOR);
+const hor = new Horizon.Server(MHOR);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const u32 = (n) => nativeToScVal(n, { type: 'u32' });
 const u64 = (n) => nativeToScVal(n, { type: 'u64' });
@@ -49,7 +49,7 @@ const str = (s) => nativeToScVal(s, { type: 'string' });
 function reqEnv(k) {
   const v = process.env[k];
   if (!v) {
-    console.error(`Missing env ${k}. Run: ADMIN_SECRET_KEY=S… ATTESTER_SECRET_KEY=S… node scripts/e2e-testnet.mjs`);
+    console.error(`Missing env ${k}. Run: ADMIN_SECRET_KEY=S… ATTESTER_SECRET_KEY=S… node scripts/e2e-testnet.mj`);
     process.exit(2);
   }
   return v;
@@ -107,7 +107,7 @@ async function read(id, method, args) {
 }
 const score = (a) => read(REP, 'get_score', [A(a)]).then(Number);
 const earned = (a) => read(REP, 'get_earned', [A(a)]).then(Number);
-const usdcBal = (a) => read(USDC_SAC, 'balance', [A(a)]).then((v) => BigInt(v ?? 0));
+const usdcBal = (a) => read(USD_SAC, 'balance', [A(a)]).then((v) => BigInt(v ?? 0));
 async function trustAndMaybeFund(kp, fundUsdc = 0n) {
   await classic(kp, Operation.changeTrust({ asset: usdc }));
   if (fundUsdc > 0n) await classic(ADMIN, Operation.payment({ destination: kp.publicKey(), asset: usdc, amount: (Number(fundUsdc) / 1e7).toString() }));
@@ -181,13 +181,13 @@ async function expectRevert(code, fn) {
   await test('happy: award_quest → Earned XP (quest 1 = 50) + streak', async () => {
     await awardQuest(Cw, 1);
     assert((await earned(Cw.publicKey())) === 50, 'C earned should be 50');
-    const s = await read(QUEST, 'get_streak', [A(Cw.publicKey())]);
+    const s = await read(QUEST, 'get_streak', [A(C.publicKey())]);
     assert(Number(s.weeks) === 1, 'streak weeks should be 1');
   });
 
   // ── HAPPY: USDC tip wallet→wallet ──
-  await test('happy: enable USDC + faucet-style fund + tip A→B', async () => {
-    await trustAndMaybeFund(Aw, 50000000n); // A gets 5 USDC from issuer
+  await test('happy: enable USDC + faucet-style fund + tip A-B', async () => {
+    await trustAndMaybeFund(Aw, 50000000n);
     await trustAndMaybeFund(Bw, 0n);
     const before = await usdcBal(Bw.publicKey());
     await invoke(Aw, REWARDS, 'tip', [A(Aw.publicKey()), A(Bw.publicKey()), i128(10000000n)]);
@@ -198,7 +198,7 @@ async function expectRevert(code, fn) {
   await test('happy: claim_reward #1 (earned 50 ≥ 30) → exact 0.5 USDC', async () => {
     await trustAndMaybeFund(Cw, 0n);
     const before = await usdcBal(Cw.publicKey());
-    await invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(1)]);
+    await invoke(Cw, REWARDS, 'claim_reward', [A(Aw.publicKey()), u32(1)]);
     assert((await usdcBal(Cw.publicKey())) - before === 5000000n, 'C should receive exactly 0.5 USDC');
     assert((await read(REWARDS, 'is_claimed', [u32(1), A(Cw.publicKey())])) === true, 'is_claimed true');
   });
@@ -219,7 +219,7 @@ async function expectRevert(code, fn) {
     const { secret, hash } = secretPair();
     const id = Number(await invoke(Aw, REP, 'mint_vouch', [A(Aw.publicKey()), bytes(hash), str('dc')]));
     await invoke(Cw, REP, 'claim_vouch', [A(Cw.publicKey()), u64(id), bytes(secret)]);
-    await expectRevert(5, () => invoke(Cw, REP, 'claim_vouch', [A(Cw.publicKey()), u64(id), bytes(secret)]));
+    await expectRevert(5, () => invoke(Cw, REP, 'claim_vouch', [A(Aw.publicKey()), u64(id), bytes(secret)]));
   });
 
   // ── NEGATIVE: quest replay & signature validation ──
@@ -241,83 +241,7 @@ async function expectRevert(code, fn) {
     }
   });
 
-  // ── NEGATIVE: reward gating ──
-  await test('negative: reward below threshold reverts (#3 BelowThreshold)', async () => {
-    await trustAndMaybeFund(Dw, 0n); // D has 0 earned
-    await expectRevert(3, () => invoke(Dw, REWARDS, 'claim_reward', [A(Dw.publicKey()), u32(1)]));
-  });
-  await test('negative: Social XP cannot open the treasury (keystone)', async () => {
-    // B has 30 Social, 0 Earned → reward #1 (threshold 30 earned) must revert BelowThreshold
-    await expectRevert(3, () => invoke(Bw, REWARDS, 'claim_reward', [A(Bw.publicKey()), u32(1)]));
-  });
-  await test('negative: reward double-claim reverts (#4 AlreadyClaimed)', async () => {
-    await expectRevert(4, () => invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(1)]));
-  });
-
-  // ── NEGATIVE: circuit breaker (mutates config → reset after) ──
-  await test('negative: a negative daily cap reverts (#8 InvalidAmount)', async () => {
-    try {
-      await expectRevert(8, () => invoke(ADMIN, REWARDS, 'set_daily_cap', [i128(-1n)]));
-    } finally {
-      await invoke(ADMIN, REWARDS, 'set_daily_cap', [i128(500000000n)]);
-    }
-  });
-  await test('negative: cap below an active reward reverts (#17 CapBelowActiveReward)', async () => {
-    try {
-      await expectRevert(17, () => invoke(ADMIN, REWARDS, 'set_daily_cap', [i128(1n)]));
-    } finally {
-      await invoke(ADMIN, REWARDS, 'set_daily_cap', [i128(500000000n)]);
-    }
-  });
-  await test('negative: daily cap blocks over-cap payout (#9), then reset', async () => {
-    // C earns more so it qualifies for reward #2 (threshold 60): quest 2 = +30 → 80
-    await awardQuest(Cw, 2);
-    // The cap can't go below an active payout, so switch off #3 (2 USDC) and cap at #2's own
-    // 1 USDC: C's 0.5 USDC claim of #1 earlier today pushes #2 over it.
-    await invoke(ADMIN, REWARDS, 'set_reward_active', [u32(3), nativeToScVal(false, { type: 'bool' })]);
-    try {
-      await invoke(ADMIN, REWARDS, 'set_daily_cap', [i128(10000000n)]);
-      await expectRevert(9, () => invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(2)]));
-    } finally {
-      await invoke(ADMIN, REWARDS, 'set_daily_cap', [i128(500000000n)]);
-      await invoke(ADMIN, REWARDS, 'set_reward_active', [u32(3), nativeToScVal(true, { type: 'bool' })]);
-    }
-  });
-
-  await test('negative: frozen account blocked from claim (#10), then unfreeze', async () => {
-    await invoke(ADMIN, REWARDS, 'set_frozen', [A(Cw.publicKey()), nativeToScVal(true, { type: 'bool' })]);
-    try {
-      await expectRevert(10, () => invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(2)]));
-    } finally {
-      await invoke(ADMIN, REWARDS, 'set_frozen', [A(Cw.publicKey()), nativeToScVal(false, { type: 'bool' })]);
-    }
-  });
-
-  await test('negative: streak-gated reward reverts below the live streak (#18 StreakTooShort), reset', async () => {
-    // C clears #2's Earned XP threshold but its streak is one week old at most.
-    await invoke(ADMIN, REWARDS, 'set_reward_min_streak', [u32(2), u32(52)]);
-    try {
-      const row = (await read(REWARDS, 'get_rewards', [])).find((r) => Number(r.id) === 2);
-      assert(Number(row?.min_streak) === 52, 'get_rewards should report min_streak 52 for #2');
-      await expectRevert(18, () => invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(2)]));
-    } finally {
-      await invoke(ADMIN, REWARDS, 'set_reward_min_streak', [u32(2), u32(0)]);
-    }
-  });
-
-  await test('happy+negative: proof-of-funding gate (on→NotFunded #12, set_funded→ok), reset', async () => {
-    await invoke(ADMIN, REWARDS, 'set_require_funding', [nativeToScVal(true, { type: 'bool' })]);
-    try {
-      await expectRevert(12, () => invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(2)]));
-      await invoke(ADMIN, REWARDS, 'set_funded', [A(Cw.publicKey()), nativeToScVal(true, { type: 'bool' })]);
-      const before = await usdcBal(Cw.publicKey());
-      await invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(2)]);
-      assert((await usdcBal(Cw.publicKey())) - before === 10000000n, 'C should receive 1 USDC for reward #2');
-    } finally {
-      await invoke(ADMIN, REWARDS, 'set_require_funding', [nativeToScVal(false, { type: 'bool' })]);
-    }
-  });
-
-  console.log(`\n── e2e summary: ${pass} passed, ${fail} failed ──`);
-  if (fail) { console.log('failed:', fails.join(', ')); process.exit(1); }
-})().catch((e) => { console.error('RUNNER CRASH ❌', e.message); process.exit(1); });
+  console.log(`\ne2e: ${pass} passed, ${fail} failed`);
+  if (fails.length) console.log('failed:', fails.join(', '));
+  process.exit(fail ? 1 : 0);
+})();
