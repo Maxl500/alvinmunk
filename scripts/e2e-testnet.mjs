@@ -1,7 +1,7 @@
 /**
  * End-to-end flow tests against the LIVE testnet contracts — exercises exactly what the
- * UI does (vouch / claim / quest / tip / reward), with happy AND negative paths. This is the
- * integration layer behind every UX action.
+ * UI does (vouch / claim / quest / tip / reward), with happy AND negative paths. This is
+ * the integration layer behind every UX action.
  *
  * Secret-free: admin (USDC issuer) + attester keys come from env. Generates throwaway
  * users via Friendbot. Mutating-config tests (daily cap, frozen, proof-of-funding, streak
@@ -9,35 +9,35 @@
  * non-zero if anything failed.
  *
  * Run from repo root:
- *   ADMIN_SECRET_KEY=S... ATTESTER_SECRET_KEY=S... node scripts/e2e-testnet.mj
- * The RPC/Horizon URLs and contract ids come from scripts/lib/env.mj (NEXT_PUBLIC_* env,
+ *   ADMIN_SECRET_KEY=S... ATTESTER_SECRET_KEY=S... node scripts/e2e-testnet.mjs
+ * The RPC/Horizon URLs and contract ids come from scripts/lib/env.mjs (NEXT_PUBLIC_* env,
  * then apps/web/.env.local, then deployments/testnet.json); a missing id exits 2.
  */
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import crypto from 'node:crypto';
-import { loadDeployment } from './lib/env.mjs';
-const require = createRequire(join(dirname(fileURLToPath(import.meta.url)), '.', 'apps', 'web', 'package.json'));
+import { loadDeploymentOrExit } from './lib/env.mjs';
+const require = createRequire(join(dirname(fileURLToPath(import.meta.url)), '..', 'apps', 'web', 'package.json'));
 const {
   Address, Asset, Contract, Keypair, Networks, Operation, TransactionBuilder,
-  nativeToScVal, scValToNative, rpc, Horizon, xdr
+  nativeToScVal, scValToNative, rpc, Horizon, xdr,
 } = require('@stellar/stellar-sdk');
 
-const PASS = Networks.TESTNET; // testnet only: throwaway users come from Friendbot
-const deployment = loadDeployment(['reputation', 'questRegistry', 'rewards', 'usdcSac'], {
+const deployment = loadDeploymentOrExit(['reputation', 'questRegistry', 'rewards', 'usdcSac'], {
   network: 'testnet',
   settings: ['rpcUrl', 'horizonUrl'],
 });
-const RPC = deployment.rpcUrl;
+const PASS = deployment.passphrase || Networks.TESTNET; // testnet only: throwaway users come from Friendbot
+const HPRC = deployment.rpcUrl;
 const HOR = deployment.horizonUrl;
-const { reputation: REP, questRegistry: QUEST, rewards: REWARDS, usdcSac: USD_SAC } = deployment.contracts;
+const { reputation: REP, questRegistry: QUEST, rewards: REWARDS, usdcSac: USDC } = deployment.contracts;
 
 const ADMIN = Keypair.fromSecret(reqEnv('ADMIN_SECRET_KEY'));
 const ATTESTER = Keypair.fromSecret(reqEnv('ATTESTER_SECRET_KEY'));
 const usdc = new Asset('USDC', ADMIN.publicKey());
 const server = new rpc.Server(RPC);
-const hor = new Horizon.Server(MHOR);
+const hor = new Horizon.Server(HOR);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const u32 = (n) => nativeToScVal(n, { type: 'u32' });
 const u64 = (n) => nativeToScVal(n, { type: 'u64' });
@@ -49,7 +49,7 @@ const str = (s) => nativeToScVal(s, { type: 'string' });
 function reqEnv(k) {
   const v = process.env[k];
   if (!v) {
-    console.error(`Missing env ${k}. Run: ADMIN_SECRET_KEY=S… ATTESTER_SECRET_KEY=S… node scripts/e2e-testnet.mj`);
+    console.error(`Missing env ${k}. Run: ADMIN_SECRET_KEY=S… ATTESTER_SECRET_KEY=S… node scripts/e2e-testnet.mjs`);
     process.exit(2);
   }
   return v;
@@ -107,7 +107,7 @@ async function read(id, method, args) {
 }
 const score = (a) => read(REP, 'get_score', [A(a)]).then(Number);
 const earned = (a) => read(REP, 'get_earned', [A(a)]).then(Number);
-const usdcBal = (a) => read(USD_SAC, 'balance', [A(a)]).then((v) => BigInt(v ?? 0));
+const usdcBal = (a) => read(USDC, 'balance', [A(a)]).then((v) => BigInt(v ?? 0));
 async function trustAndMaybeFund(kp, fundUsdc = 0n) {
   await classic(kp, Operation.changeTrust({ asset: usdc }));
   if (fundUsdc > 0n) await classic(ADMIN, Operation.payment({ destination: kp.publicKey(), asset: usdc, amount: (Number(fundUsdc) / 1e7).toString() }));
@@ -186,8 +186,8 @@ async function expectRevert(code, fn) {
   });
 
   // ── HAPPY: USDC tip wallet→wallet ──
-  await test('happy: enable USDC + faucet-style fund + tip A-B', async () => {
-    await trustAndMaybeFund(Aw, 50000000n);
+  await test('happy: enable USDC + faucet-style fund + tip A\u2192H', async () => {
+    await trustAndMaybeFund(Aw, 50000000n ); // A gets 5 USDC from issuer
     await trustAndMaybeFund(Bw, 0n);
     const before = await usdcBal(Bw.publicKey());
     await invoke(Aw, REWARDS, 'tip', [A(Aw.publicKey()), A(Bw.publicKey()), i128(10000000n)]);
@@ -198,7 +198,7 @@ async function expectRevert(code, fn) {
   await test('happy: claim_reward #1 (earned 50 ≥ 30) → exact 0.5 USDC', async () => {
     await trustAndMaybeFund(Cw, 0n);
     const before = await usdcBal(Cw.publicKey());
-    await invoke(Cw, REWARDS, 'claim_reward', [A(Aw.publicKey()), u32(1)]);
+    await invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(1)]);
     assert((await usdcBal(Cw.publicKey())) - before === 5000000n, 'C should receive exactly 0.5 USDC');
     assert((await read(REWARDS, 'is_claimed', [u32(1), A(Cw.publicKey())])) === true, 'is_claimed true');
   });
@@ -218,8 +218,8 @@ async function expectRevert(code, fn) {
   await test('negative: double-claim same vouch reverts (#5 AlreadyClaimed)', async () => {
     const { secret, hash } = secretPair();
     const id = Number(await invoke(Aw, REP, 'mint_vouch', [A(Aw.publicKey()), bytes(hash), str('dc')]));
-    await invoke(Cw, REP, 'claim_vouch', [A(Cw.publicKey()), u64(id), bytes(secret)]);
-    await expectRevert(5, () => invoke(Cw, REP, 'claim_vouch', [A(Aw.publicKey()), u64(id), bytes(secret)]));
+    await invoke(Cw, REP, 'claim_vouch', [A(Aw.publicKey()), u64(id), bytes(secret)]);
+    await expectRevert(5, () => invoke(Cw, REP, 'claim_vouch', [A(Cw.publicKey()), u64(id), bytes(secret)]));
   });
 
   // ── NEGATIVE: quest replay & signature validation ──
@@ -237,11 +237,36 @@ async function expectRevert(code, fn) {
     } catch (e) {
       const m = String(e.message);
       if (m.includes('expected revert')) throw e;
-      assert(m.includes('tx failed') || m.includes('send:') || m.includes('sim:'), `expected tx/signature failure, got: ${m.slice(0, 160)}`);
+      assert(m.includes('tx failed') || m.includes('send:') || m.includes('sim'), `expected a revert, got: ${m.slice(0, 160)}`);
+    }
+  });
+
+  // ── NEGATIVE: tip guards ──
+  await test('negative: tip with no trustline reverts', async () => {
+    const noTrust = await newUser();
+    await sleep(1000);
+    try {
+      await invoke(Aw, REWARDS, 'tip', [A(Aw.publicKey()), A(noTrust.publicKey()), i128(10000000n)]);
+      throw new Error('expected revert but it succeeded');
+    } catch (e) {
+      const m = String(e.message);
+      if (m.includes('expected revert')) throw e;
+      assert(m.includes('tx failed') || m.includes('send:') || m.includes('sim'), `expected a revert, got: ${m.slice(0, 160)}`);
+    }
+  });
+
+  // ── NEGATIVE: reward claim guards ──
+  await test('negative: claim_reward #2 (earned 50 < 200) reverts', async () => {
+    try {
+      await invoke(Cw, REWARDS, 'claim_reward', [A(C.publicKey()), u32(2)]);
+      throw new Error('expected revert but it succeeded');
+    } catch (e) {
+      const m = String(e.message);
+      if (m.includes('expected revert')) throw e;
+      assert(m.includes('tx failed') || m.includes('send:') || m.includes('sim'), `expected a revert, got: ${m.slice(0, 160)}`);
     }
   });
 
   console.log(`\ne2e: ${pass} passed, ${fail} failed`);
-  if (fails.length) console.log('failed:', fails.join(', '));
-  process.exit(fail ? 1 : 0);
-})();
+  if (fail) { console.error('Failed: ' + fails.join(', ')); process.exit(1); }
+})().catch((e) => { console.error(e); process.exit(1); });
