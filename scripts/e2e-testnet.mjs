@@ -10,27 +10,37 @@
  *
  * Run from repo root:
  *   ADMIN_SECRET_KEY=S... ATTESTER_SECRET_KEY=S... node scripts/e2e-testnet.mjs
- * Contract ids are resolved from env overrides, apps/web/.env.local, or
- * deployments/<DEPLOYMENT>.json. No hard-coded fallbacks.
  */
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import crypto from 'node:crypto';
-import { REC, HORIZON, REPUTATION, QUEST, REWARDS, USDC, requireContractIds } from './lib/env.mjs';
-const require = createRequire(join(dirname(fileURLToPath(import.meta.url)), '.', 'apps', 'web', 'package.json'));
+const require = createRequire(join(dirname(fileURLToPath(import.meta.url)), '..', 'apps', 'web', 'package.json'));
 const {
   Address, Asset, Contract, Keypair, Networks, Operation, TransactionBuilder,
   nativeToScVal, scValToNative, rpc, Horizon, xdr,
 } = require('@stellar/stellar-sdk');
 
 const PASS = Networks.TESTNET;
-const { reputation: REP, quest: QUEST_ID, rewards: REWARDS_ID } = requireContractIds();
-const USDJ_SAC = USDC;
-if (!USDC_SAC) {
-  console.error('Missing USDC sac id. Set NEXT_PUBLIC_USDC_SAC_ID in the environment, in apps/web/.env.local, or in deployments/testnet.json.');
-  process.exit(2);
-}
+const RPC = process.env.NEXT_PUBLIC_RPC_URL ?? 'https://soroban-testnet.stellar.org';
+const HOR = process.env.NEXT_PUBLIC_HORIZON_URL ?? 'https://horizon-testnet.stellar.org';
+const REP = process.env.NEXT_PUBLIC_REPUTATION_CONTRACT_ID ?? 'CBNIZXITUVTRVW6RZGEGCI7KNF46REG4EDM4XUVHKDAV63WOHWW75SZM';
+const QUEST = process.env.NEXT_PUBLIC_QUEST_REGISTRY_CONTRACT_ID ?? 'CD6RZUVNQ3TV3X6MNQM25NB2YRFRGMSUGKWTMAIGJOC23C6ESHJKYNFO';
+const REWARDS = process.env.NEXT_PUBLIC_REWARDS_CONTRACT_ID ?? 'CBUKGIFOEOS74I2IUUHYNRBZODQFOFCFWIJY3DUJHOUUJV7TT2QYADOU';
+const USDC_SAC = process.env.NEXT_PUBLIC_USDC_SAC_ID ?? 'CAKT2EK2SFGNXTXVSYZLZXA5YB5QPVHLTVUMRHLJTF5RFFAFMIRNPZT2';
+
+const ADMIN = Keypair.fromSecret(reqEnv('ADMIN_SECRET_KEY'));
+const ATTESTER = Keypair.fromSecret(reqEnv('ATTESTER_SECRET_KEY'));
+const usdc = new Asset('USDC', ADMIN.publicKey());
+const server = new rpc.Server(RPC);
+const hor = new Horizon.Server(HOR);
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const u32 = (n) => nativeToScVal(n, { type: 'u32' });
+const u64 = (n) => nativeToScVal(n, { type: 'u64' });
+const i128 = (n) => nativeToScVal(n, { type: 'i128' });
+const A = (s) => new Address(s).toScVal();
+const bytes = (u8) => nativeToScVal(u8, { type: 'bytes' });
+const str = (s) => nativeToScVal(s, { type: 'string' });
 
 function reqEnv(k) {
   const v = process.env[k];
@@ -40,19 +50,6 @@ function reqEnv(k) {
   }
   return v;
 }
-
-const ADMIN = Keypair.fromSecret(reqEnv('ADMIN_SECRET_KEY'));
-const ATTESTER = Keypair.fromSecret(reqEnv('ATTESTER_SECRET_KEY'));
-const usdc = new Asset('USDC', ADMIN.publicKey());
-const server = new rpc.Server(REC);
-const hor = new Horizon.Server(NORIZON);
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-const u32 = (n) => nativeToScVal(n, { type: 'u32' });
-const u64 = (n) => nativeToScVal(n, { type: 'u64' });
-const i128 = (n) => nativeToScVal(n, { type: 'i128' });
-const A = (s) => new Address(s).toScVal();
-const bytes = (u8) => nativeToScVal(u8, { type: 'bytes' });
-const str = (s) => nativeToScVal(s, { type: 'string' });
 
 async function friendbot(pk) {
   const r = await fetch(`https://friendbot.stellar.org/?addr=${pk}`);
@@ -106,7 +103,7 @@ async function read(id, method, args) {
 }
 const score = (a) => read(REP, 'get_score', [A(a)]).then(Number);
 const earned = (a) => read(REP, 'get_earned', [A(a)]).then(Number);
-const usdcBal = (a) => read(USDC_SAC, 'balance', [A(a)]).then((v) => BigInt(v ?? 0n));
+const usdcBal = (a) => read(USDC_SAC, 'balance', [A(a)]).then((v) => BigInt(v ?? 0));
 async function trustAndMaybeFund(kp, fundUsdc = 0n) {
   await classic(kp, Operation.changeTrust({ asset: usdc }));
   if (fundUsdc > 0n) await classic(ADMIN, Operation.payment({ destination: kp.publicKey(), asset: usdc, amount: (Number(fundUsdc) / 1e7).toString() }));
@@ -119,7 +116,7 @@ function secretPair() {
 // Like /api/attest: a signature valid for 10 minutes. The payload comes from the live
 // contract's `quest_payload` view, so this also checks the deployment's payload format.
 async function signQuest(questId, recipientPk, expiresAt) {
-  const payload = await read(QUEST_ID, 'quest_payload', [u32(questId), A(recipientPk), u64(expiresAt)]);
+  const payload = await read(QUEST, 'quest_payload', [u32(questId), A(recipientPk), u64(expiresAt)]);
   const sig = ATTESTER.sign(payload);
   const attesterBytes = ATTESTER.rawPublicKey();
   return { attesterBytes, sig };
@@ -128,7 +125,7 @@ async function signQuest(questId, recipientPk, expiresAt) {
 async function awardQuest(recipientKp, questId, overrideSig = null, expiresAt = Math.floor(Date.now() / 1000) + 600) {
   const { attesterBytes, sig } = await signQuest(questId, recipientKp.publicKey(), expiresAt);
   const finalSig = overrideSig ?? sig;
-  return invoke(recipientKp, QUEST_ID, 'award_quest', [
+  return invoke(recipientKp, QUEST, 'award_quest', [
     bytes(attesterBytes),
     bytes(finalSig),
     u32(questId),
@@ -180,64 +177,143 @@ async function expectRevert(code, fn) {
   await test('happy: award_quest → Earned XP (quest 1 = 50) + streak', async () => {
     await awardQuest(Cw, 1);
     assert((await earned(Cw.publicKey())) === 50, 'C earned should be 50');
-    const s = await read(QUEST_ID, 'get_streak', [A(C.publicKey())]);
+    const s = await read(QUEST, 'get_streak', [A(Cw.publicKey())]);
     assert(Number(s.weeks) === 1, 'streak weeks should be 1');
   });
 
   // ── HAPPY: USDC tip wallet→wallet ──
-  await test('happy: enable USDC + faucet + tip → balance moves', async () => {
-    await trustAndMaybeFund(Dw, 10000000n);
-    const before = await usdcBal(Dw.publicKey());
-    await invoke(Dw, REWARDS_ID, 'tip', [A(Dw.publicKey()), A(Aw.publicKey()), i128(10000000n)]);
-    const after = await usdcBal(Dw.publicKey());
-    assert(before - after === 10000000n, 'tip should move 1 USDC');
+  await test('happy: enable USDC + faucet-style fund + tip A→B', async () => {
+    await trustAndMaybeFund(Aw, 50000000n); // A gets 5 USDC from issuer
+    await trustAndMaybeFund(Bw, 0n);
+    const before = await usdcBal(Bw.publicKey());
+    await invoke(Aw, REWARDS, 'tip', [A(Aw.publicKey()), A(Bw.publicKey()), i128(10000000n)]);
+    assert((await usdcBal(Bw.publicKey())) - before === 10000000n, 'B should receive 1 USDC');
   });
 
-  // ── NEGATIVE: double claim — no double XP ──
-  await test('negative: double claim of the same vouch fails', async () => {
-    const { secret } = secretPair();
-    await expectRevert(1, async () => invoke(Bw, REP, 'claim_vouch', [A(Bw.publicKey()), u64(vouchId), bytes(secret)]));
+  // ── HAPPY: reward claim (earned-gated, exact stored amount) ──
+  await test('happy: claim_reward #1 (earned 50 ≥ 30) → exact 0.5 USDC', async () => {
+    await trustAndMaybeFund(Cw, 0n);
+    const before = await usdcBal(Cw.publicKey());
+    await invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(1)]);
+    assert((await usdcBal(Cw.publicKey())) - before === 5000000n, 'C should receive exactly 0.5 USDC');
+    assert((await read(REWARDS, 'is_claimed', [u32(1), A(Cw.publicKey())])) === true, 'is_claimed true');
   });
 
-  // ── HAPPY: proof-of-funding unlocks higher tip cap ──
-  await test('happy: proof-of-funding level upgrades the tip cap', async () => {
-    const level = await read(REWARDS_ID, 'get_level', [A(Dw.publicKey())]);
-    assert(Number(level) >= 1, 'Dw should have a funding level after the tip');
+  // ── NEGATIVE: vouch guards ──
+  await test('negative: self-vouch reverts (#6 SelfVouch)', async () => {
+    const { secret, hash } = secretPair();
+    const id = Number(await invoke(Aw, REP, 'mint_vouch', [A(Aw.publicKey()), bytes(hash), str('self')]));
+    await expectRevert(6, () => invoke(Aw, REP, 'claim_vouch', [A(Aw.publicKey()), u64(id), bytes(secret)]));
+  });
+  await test('negative: wrong secret reverts (#8 BadSecret)', async () => {
+    const { hash } = secretPair();
+    const id = Number(await invoke(Aw, REP, 'mint_vouch', [A(Aw.publicKey()), bytes(hash), str('x')]));
+    const wrong = new Uint8Array(crypto.randomBytes(32));
+    await expectRevert(8, () => invoke(Bw, REP, 'claim_vouch', [A(Bw.publicKey()), u64(id), bytes(wrong)]));
+  });
+  await test('negative: double-claim same vouch reverts (#5 AlreadyClaimed)', async () => {
+    const { secret, hash } = secretPair();
+    const id = Number(await invoke(Aw, REP, 'mint_vouch', [A(Aw.publicKey()), bytes(hash), str('dc')]));
+    await invoke(Cw, REP, 'claim_vouch', [A(Cw.publicKey()), u64(id), bytes(secret)]);
+    await expectRevert(5, () => invoke(Cw, REP, 'claim_vouch', [A(Cw.publicKey()), u64(id), bytes(secret)]));
   });
 
-  // ── NEGATIVE: bad attester sig — revert ──
-  await test('negative: forged attester sig is rejected', async () => {
-    const bad = new Uint8Array(64);
-    await expectRevert(1, async () => awardQuest(Dw, 2, bad));
+  // ── NEGATIVE: quest replay & signature validation ──
+  await test('negative: quest replay reverts (#5 AlreadyClaimed)', async () => {
+    await expectRevert(5, () => awardQuest(Cw, 1));
+  });
+  await test('negative: expired quest signature reverts (#8 SignatureExpired)', async () => {
+    await expectRevert(8, () => awardQuest(Dw, 1, null, Math.floor(Date.now() / 1000) - 60));
+  });
+  await test('negative: quest with bad signature reverts', async () => {
+    const badSig = new Uint8Array(64); // invalid zero signature
+    try {
+      await awardQuest(Dw, 1, badSig);
+      throw new Error('expected revert but it succeeded');
+    } catch (e) {
+      const m = String(e.message);
+      if (m.includes('expected revert')) throw e;
+      assert(m.includes('tx failed') || m.includes('send:') || m.includes('sim:'), `expected tx/signature failure, got: ${m.slice(0, 160)}`);
+    }
   });
 
-  // ── NEGATIVE: expired attestation ──
-  await test('negative: expired attestation is rejected', async () => {
-    const past = Math.floor(Date.now() / 1000) - 60;
-    await expectRevert(1, async () => awardQuest(Dw, 3, null, past));
+  // ── NEGATIVE: reward gating ──
+  await test('negative: reward below threshold reverts (#3 BelowThreshold)', async () => {
+    await trustAndMaybeFund(Dw, 0n); // D has 0 earned
+    await expectRevert(3, () => invoke(Dw, REWARDS, 'claim_reward', [A(Dw.publicKey()), u32(1)]));
+  });
+  await test('negative: Social XP cannot open the treasury (keystone)', async () => {
+    // B has 30 Social, 0 Earned → reward #1 (threshold 30 earned) must revert BelowThreshold
+    await expectRevert(3, () => invoke(Bw, REWARDS, 'claim_reward', [A(Bw.publicKey()), u32(1)]));
+  });
+  await test('negative: reward double-claim reverts (#4 AlreadyClaimed)', async () => {
+    await expectRevert(4, () => invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(1)]));
   });
 
-  // ── NEGATIVE: daily cap ──
-  await test('negative: daily cap blocks the N+e tip', async () => {
-    await invoke(ADMIN, REWARDS_ID, 'set_daily_cap', [i128(10000000n)]);
-    await expectRevert(1, async () => invoke(Dw, REWARDS_ID, 'tip', [A(Dw.publicKey()), A(Aw.publicKey()), i128(10000000n)]));
-    await invoke(ADMIN, REWARDS_ID, 'set_daily_cap', [i128(10000000000n-n)]);
+  // ── NEGATIVE: circuit breaker (mutates config → reset after) ──
+  await test('negative: a negative daily cap reverts (#8 InvalidAmount)', async () => {
+    try {
+      await expectRevert(8, () => invoke(ADMIN, REWARDS, 'set_daily_cap', [i128(-1n)]));
+    } finally {
+      await invoke(ADMIN, REWARDS, 'set_daily_cap', [i128(500000000n)]);
+    }
+  });
+  await test('negative: cap below an active reward reverts (#17 CapBelowActiveReward)', async () => {
+    try {
+      await expectRevert(17, () => invoke(ADMIN, REWARDS, 'set_daily_cap', [i128(1n)]));
+    } finally {
+      await invoke(ADMIN, REWARDS, 'set_daily_cap', [i128(500000000n)]);
+    }
+  });
+  await test('negative: daily cap blocks over-cap payout (#9), then reset', async () => {
+    // C earns more so it qualifies for reward #2 (threshold 60): quest 2 = +30 → 80
+    await awardQuest(Cw, 2);
+    // The cap can't go below an active payout, so switch off #3 (2 USDC) and cap at #2's own
+    // 1 USDC: C's 0.5 USDC claim of #1 earlier today pushes #2 over it.
+    await invoke(ADMIN, REWARDS, 'set_reward_active', [u32(3), nativeToScVal(false, { type: 'bool' })]);
+    try {
+      await invoke(ADMIN, REWARDS, 'set_daily_cap', [i128(10000000n)]);
+      await expectRevert(9, () => invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(2)]));
+    } finally {
+      await invoke(ADMIN, REWARDS, 'set_daily_cap', [i128(500000000n)]);
+      await invoke(ADMIN, REWARDS, 'set_reward_active', [u32(3), nativeToScVal(true, { type: 'bool' })]);
+    }
   });
 
-  // ── NEGATIVE: frozen account ──
-  await test('negative: frozen account cannot tip', async () => {
-    await invoke(ADMIN, REWARDS_ID, 'set_frozen', [A(Cw.publicKey()), nativeToScVal(true, { type: 'bool' })]);
-    await expectRevert(1, async () => invoke(Cw, REWARDS_ID, 'tip', [A(C.publicKey()), A(Aw.publicKey()), i128(10000000n)]));
-    await invoke(ADMIN, REWARDS_ID, 'set_frozen', [A(C.publicKey()), nativeToScVal(false, { type: 'bool' })]);
+  await test('negative: frozen account blocked from claim (#10), then unfreeze', async () => {
+    await invoke(ADMIN, REWARDS, 'set_frozen', [A(Cw.publicKey()), nativeToScVal(true, { type: 'bool' })]);
+    try {
+      await expectRevert(10, () => invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(2)]));
+    } finally {
+      await invoke(ADMIN, REWARDS, 'set_frozen', [A(Cw.publicKey()), nativeToScVal(false, { type: 'bool' })]);
+    }
   });
 
-  // ── NEGATIVE: streak gate ──
-  await test('negative: quest 2 requires a streak', async () => {
-    await expectRevert(1, async () => awardQuest(Dw, 2));
+  await test('negative: streak-gated reward reverts below the live streak (#18 StreakTooShort), reset', async () => {
+    // C clears #2's Earned XP threshold but its streak is one week old at most.
+    await invoke(ADMIN, REWARDS, 'set_reward_min_streak', [u32(2), u32(52)]);
+    try {
+      const row = (await read(REWARDS, 'get_rewards', [])).find((r) => Number(r.id) === 2);
+      assert(Number(row?.min_streak) === 52, 'get_rewards should report min_streak 52 for #2');
+      await expectRevert(18, () => invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(2)]));
+    } finally {
+      await invoke(ADMIN, REWARDS, 'set_reward_min_streak', [u32(2), u32(0)]);
+    }
   });
 
-  console.log(`\n── result ──
-${pass} passed, ${fail} failed`);
-  if (fails.length) console.log('failed:', fails.join(', '));
-  process.exit(fail ? 1 : 0);
-})().catch((e) => { console.error(e); process.exit(1); });
+  await test('happy+negative: proof-of-funding gate (on→NotFunded #12, set_funded→ok), reset', async () => {
+    await invoke(ADMIN, REWARDS, 'set_require_funding', [nativeToScVal(true, { type: 'bool' })]);
+    try {
+      await expectRevert(12, () => invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(2)]));
+      await invoke(ADMIN, REWARDS, 'set_funded', [A(Cw.publicKey()), nativeToScVal(true, { type: 'bool' })]);
+      const before = await usdcBal(Cw.publicKey());
+      await invoke(Cw, REWARDS, 'claim_reward', [A(Cw.publicKey()), u32(2)]);
+      assert((await usdcBal(Cw.publicKey())) - before === 10000000n, 'C should receive 1 USDC for reward #2');
+    } finally {
+      await invoke(ADMIN, REWARDS, 'set_require_funding', [nativeToScVal(false, { type: 'bool' })]);
+    }
+  });
+
+  console.log(`\n── e2e summary: ${pass} passed, ${fail} failed ──`);
+  if (fail) { console.log('failed:', fails.join(', ')); process.exit(1); }
+})().catch((e) => { console.error('RUNNER CRASH ❌', e.message); process.exit(1); });

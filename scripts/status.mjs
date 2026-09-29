@@ -5,25 +5,26 @@
  * breaker usage, proof-of-funding toggle, and the rank-reward table with its supply.
  *
  * Simulation runs from a throwaway source account, so no funded account is needed. A read
- * that fails (or returns a value of the wrong shape) prints `ERROR <method>: <reason>` on
+ * that fails (or returns a value of the wrong shape) prints `ERROR <method>: <reason>` in
  * place of its value; the other reads still print, and the script then exits 1, so it can
  * run as a health check.
  *
  * Run from repo root:  node scripts/status.mjs
  * Env: NEXT_PUBLIC_RPC_URL, NEXT_PUBLIC_NETWORK_PASSPHRASE, NEXT_PUBLIC_*_CONTRACT_ID
- * Contract ids are resolved from the deployment manifest (
- * deployments/testnet.json) or the environment; there are no hard-coded fallbacks.
  */
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { resolveContractIds, resolveNetwork } from './lib/env.mjs';
-const require = createRequire(join(dirname(fileURLToPath(import.meta.url)), '.', 'apps', 'web', 'package.json'));
+const require = createRequire(join(dirname(fileURLToPath(import.meta.url)), '..', 'apps', 'web', 'package.json'));
 const { Account, Address, Contract, Keypair, Networks, TransactionBuilder, scValToNative, rpc } = require('@stellar/stellar-sdk');
 
-const { rpcUrl: REC, passphrase: PASSPHRASE } = resolveNetwork();
-const { reputation: REP, questRegistry: QUEST, rewards: REWARDS, usdcSac: USDC } = resolveContractIds();
-const server = new rpc.Server(REC, { allowHttp: REC.startsWith('http://') });
+const RPC = process.env.NEXT_PUBLIC_RPC_URL ?? 'https://soroban-testnet.stellar.org';
+const PASSPHRASE = process.env.NEXT_PUBLIC_NETWORK_PASSPHRASE || Networks.TESTNET;
+const REP = process.env.NEXT_PUBLIC_REPUTATION_CONTRACT_ID ?? 'CBNIZXITUVTRVW6RZGEGCI7KNF46REG4EDM4XUVHKDAV63WOHWW75SZM';
+const QUEST = process.env.NEXT_PUBLIC_QUEST_REGISTRY_CONTRACT_ID ?? 'CD6RZUVNQ3TV3X6MNQM25NB2YRFRGMSUGKWTMAIGJOC23C6ESHJKYNFO';
+const REWARDS = process.env.NEXT_PUBLIC_REWARDS_CONTRACT_ID ?? 'CBUKGIFOEOS74I2IUUHYNRBZODQFOFCFWIJY3DUJHOUUJV7TT2QYADOU';
+const USDC = process.env.NEXT_PUBLIC_USDC_SAC_ID ?? 'CAKT2EK2SFGNXTXVSYZLZXA5YB5QPVHLTVUMRHLJTF5RFFAFMIRNPZT2';
+const server = new rpc.Server(RPC, { allowHttp: RPC.startsWith('http://') });
 
 const firstLine = (s) => String(s ?? '').split('\n')[0].trim() || 'unknown error';
 const isInt = (v) => typeof v === 'bigint' || Number.isSafeInteger(v);
@@ -89,8 +90,8 @@ function supply(r) {
     ledger = fail('getLatestLedger', firstLine(e?.message ?? e));
   }
 
-  console.log('\n📆 Stellar Passport — ops status');
-  console.log('   RPC', REC, '· ledger', ledger);
+  console.log('\n📊 Stellar Passport — ops status');
+  console.log('   RPC', RPC, '· ledger', ledger);
   console.log('   contracts: reputation', REP.slice(0, 6), '· quest', QUEST.slice(0, 6), '· rewards', REWARDS.slice(0, 6));
 
   const [bal, cap, paid, reqFund, week, table] = await Promise.all([
@@ -102,15 +103,13 @@ function supply(r) {
     read(REWARDS, 'get_rewards'),
   ]);
 
-  console.log('\n
-💰 treasury');
+  console.log('\n💰 treasury');
   console.log('   USDC balance   ', field('balance', bal, amount));
   console.log('   daily cap      ', field('get_daily_cap', cap, (v) => (isInt(v) && BigInt(v) === 0n ? 'unlimited' : amount(v))));
   console.log('   paid today     ', field('get_daily_paid', paid, amount));
   console.log('   proof-of-funding gate', field('get_require_funding', reqFund, (v) => (typeof v === 'boolean' ? (v ? 'ON' : 'off (testnet)') : undefined)));
-  console.log('\n
-🗓 weekly epoch', field('get_week', week, (v) => (isInt(v) ? String(v) : undefined)));
-  console.log('\n🏆 rank → reward table');
+  console.log('\n🗓  weekly epoch', field('get_week', week, (v) => (isInt(v) ? String(v) : undefined)));
+  console.log('\n🏅 rank → reward table');
   const rows = table.ok && Array.isArray(table.value) && table.value.every(isReward) ? table.value : undefined;
   if (!rows) {
     console.log('  ', table.ok ? fail('get_rewards', `unexpected value ${show(table.value)}`) : fail('get_rewards', table.error));
@@ -118,12 +117,12 @@ function supply(r) {
     console.log('   (no rewards registered)');
   }
   for (const r of rows ?? []) {
-    console.log(`   #${r.id}  ${r.threshold} XP → ${usdc(r.amount)} USDC ${supply(r)}${r.active ? '' : '  (inactive)'}`);
+    console.log(`   #${r.id}  ${r.threshold} XP → ${usdc(r.amount)} USDC${supply(r)}${r.active ? '' : '  (inactive)'}`);
   }
   console.log('');
 
   if (failures > 0) {
-    console.error(`✖ ${failures} read${failures === 1 ? '' : 's'} failed`);
+    console.error(`❌ ${failures} read${failures === 1 ? '' : 's'} failed`);
     process.exitCode = 1;
   }
 })().catch((e) => { console.error('FAILED ❌', e.message); process.exit(1); });

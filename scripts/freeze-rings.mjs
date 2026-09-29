@@ -1,1 +1,128 @@
-LyoqCiAqIEJsdWUgYW50aS1hYnVzZSAtLSBvZmYtY2hhaW4gcmluZy9jbHVzdGVyIGRldGVjdG9yIOKGkiBvbi1jaGFpbiBgZnJvemVuYCBzZXQuCiAqCiAqIFJlYWRzIHRoZSBSZXB1dGF0aW9uIGB2b3VjaC9jbGFpbWVkYCBldmVudHMgZnJvbSBSUEMsIGJ1aWxkcyAoZnJvbeKGkmNsYWltZXIpIHBhaXJzLAogKiBmbGFncyByaW5nIGNhbmRpZGF0ZXMgKHJlY2lwcm9jYWwgQeKGlEIgcGFpcnMgYW5kIEHihpJC4oaSQeKGkkEgY3ljbGVzKSwgYW5kIGNhbGxzCiAqIGBSZXdhcmRzLnNldF9mcm96ZW4oYWRkciwgdHJ1ZSlgIHNvIHRoZSBjb250cmFjdCBibG9ja3MgdGhvc2UgYWNjb3VudHMgZnJvbSBjbGFpbS90aXAuCiAqIFRoZSBvbi1jaGFpbiBob29rIHNoaXBwZWQgd2l0aCB0aGUgR3JlZW4gcmV3YXJkcy1oYXJkZW5pbmcgcGFzczsgdGhpcyBpcyB0aGUgb2ZmLWNoYWluCiAqIGJyYWluIHRoYXQgZHJpdmVzIGl0LgogKgogKiBTZWNyZXQtZnJlZTogdGhlIGFkbWluIGtleSBpcyByZWFkIGZyb20gJEFETUlOX1NFQ1JFVF9LRVkgKG5ldmVyIGNvbW1pdHRlZCkuCiAqIERyeS1ydW4gYnkgZGVmYXVsdCDigJQgc2V0IEFQUExZPTEgdG8gYWN0dWFsbHkgZnJlZXplLgogKgogKiBDb250cmFjdCBpZHMgYW5kIHRoZSBSUEMgVVJMIGNvbWUgZnJvbSB0aGUgZGVwbG95bWVudCBtYW5pZmVzdAogKiAoZGVwbG95bWVudHMvdGVzdG5ldC5qc29uKSBvciB0aGUgZW52aXJvbm1lbnQuIFRoZXJlIGFyZSBubyBoYXJkLWNvZGVkIGZhbGxiYWNrczsKICogYSBtaXNzaW5nIGlkIGlzIGEgZmF0YWwgZXJyb3IuCiAqCiAqIFJ1biBmcm9tIHJlcG8gcm9vdDogIEFETUlOX1NFQ1JFVF9LRVk9Uy4uLiBbQVBQTFk9MV0gbm9kZSBzY3JpcHRzL2ZyZWV6ZS1yaW5ncy5tanMKICovCi8vIHN0ZWxsYXItc2RrIGxpdmVzIGluIGFwcHMvd2ViL25vZGVfbW9kdWxlcyAocG5wbSwgbm8gcm9vdCBob2lzdCkg4oCUIHJlc29sdmUgZnJvbSB0aGVyZS4KaW1wb3J0IHsgY3JlYXRlUmVxdWlyZSB9IGZyb20gJ25vZGU6bW9kdWxlJzsKaW1wb3J0IHsgZmlsZVVSTFRvUGF0aCB9IGZyb20gJ25vZGU6dXJsJzsKaW1wb3J0IHsgZGlybmFtZSwgam9pbiB9IGZyb20gJ25vZGU6cGF0aCc7CmltcG9ydCB7IHJlcXVpcmVDb250cmFjdElkcyB9IGZyb20gJy4vbGliL2Vudi5tanMnOwpjb25zdCByZXF1aXJlID0gY3JlYXRlUmVxdWlyZShqb2luKGRpcm5hbWUoZmlsZVVSTFRvUGF0aChpbXBvcnQubWV0YS51cmwpKSwgJy4uJywgJ2FwcHMnLCAnd2ViJywgJ3BhY2thZ2UuanNvbicpKTsKY29uc3QgewogIEFkZHJlc3MsIENvbnRyYWN0LCBLZXlwYWlyLCBOZXR3b3JrcywgVHJhbnNhY3Rpb25CdWlsZGVyLCBuYXRpdmVUb1NjVmFsLCBzY1ZhbFRvTmF0aXZlLCBycGMsIHhkciwKfSA9IHJlcXVpcmUoJ0BzdGVsbGFyL3N0ZWxsYXItc2RrJyk7Cgpjb25zdCB7IHJlcHV0YXRpb246IFJFUFVUQVRJT04sIHJld2FyZHM6IFJFV0FSRFMsIHJwY1VybCB9ID0gcmVxdWlyZUNvbnRyYWN0SWRzKCk7CmNvbnN0IFJQQyA9IHByb2Nlc3MuZW52Lk5FWFRfUFVCTElDX1JQQ19VUkwgPz8gcnBjVXJsOwpjb25zdCBBUFBMWSA9IHByb2Nlc3MuZW52LkFQUExZID09PSAnMSc7CmNvbnN0IHNlcnZlciA9IG5ldyBycGMuU2VydmVyKFJQQyk7CmNvbnN0IHRvTmF0aXZlID0gKHYpID0+IHNjVmFsVG9OYXRpdmUodHlwZW9mIHYgPT09ICdzdHJpbmcnID8geGRyLlNjVmFsLmZyb21YRFIodiwgJ2Jhc2U2NCcpIDogdik7CgovKioKICogUmluZyBjYW5kaWRhdGVzIGluIHRoZSBjbGFpbWVkLXZvdWNoIGdyYXBoLiBNaXJyb3Igb2YgYGRldGVjdFJpbmdDYW5kaWRhdGVzYCBpbgogKiBwYWNrYWdlcy9zaGFyZWQgKHRoZSB1bml0LXRlc3RlZCBjYW5vbmljYWwgdmVyc2lvbikg4oCUIGtlZXAgdGhlIHR3byBpbiBzeW5jLgogKgogKiBSdWxlcyAoYmVsdHMvMDgpOgogKiAtIHJlY2lwcm9jYWw6IEHihpJCIGFuZCBC4oaSQS4KICogLSBjeWNsZTM6ICAgICBB4oaSQuKGkkPihpJBB4oaSQS4KICogU2VsZi1sb29wcyBhbmQgZHVwbGljYXRlIGVkZ2VzIGFyZSBpZ25vcmVkOyBhIGJhY2stYW5kLWZvcnRoIHBhaXIgY291bnRzIG9ubHkgYXMgdGhlCiAqIHJlY2lwcm9jYWwuIFRoZXJlIGlzIGRlbGliZXJhdGVseSBubyByYXctZGVncmVlIHJ1bGUsIGJlY2F1c2UgdGhlIG1vc3QgYWN0aXZlIGhvbmVzdAogKiB1c2VycyB3b3VsZCBiZSBpdHMgZmlyc3QgZmFsc2UgcG9zaXRpdmVzLgogKgogKiBGYWxzZSBwb3NpdGl2ZXM6IGEgc21hbGwgcmVhbCBjb21tdW5pdHkgY2FuIGZvcm0gYSBnZW51aW5lIDMtY3ljbGUuIEFsd2F5cyByZXZpZXcgdGhlCiAqIGRyeS1ydW4gb3V0cHV0IChlYWNoIGFkZHJlc3MgaXMgcHJpbnRlZCB3aXRoIHRoZSBydWxlIHRoYXQgZmxhZ2dlZCBpdCkgYmVmb3JlIEFQUExZPTEsCiAqIGFuZCB1bmZyZWV6ZSB3aXRoIGBzZXRfZnJvemVuKGFkZHIsIGZhbHNlKWAgaWYgYSBjYW5kaWRhdGUgdHVybnMgb3V0IHRvIGJlIGxlZ2l0aW1hdGUuCiAqLwpmdW5jdGlvbiBkZXRlY3RSaW5nQ2FuZGlkYXRlcyhwYWlycykgewogIGNvbnN0IGFkaiA9IG5ldyBNYXAoKTsKICBmb3IgKGNvbnN0IHsgZnJvbSwgY2xhaW1lciB9IG9mIHBhaXJzKSB7CiAgICBpZiAoZnJvbSA9PT0gY2xhaW1lcikgY29udGludWU7CiAgICBpZiAoIWFkai5oYXMoZnJvbSkpIGFkai5zZXQoZnJvbSwgbmV3IFNldCgpKTsKICAgIGFkai5nZXQoZnJvbSkuYWRkKGNsYWltZXIpOwogIH0KICBjb25zdCBoYXMgPSAoYSwgYikgPT4gYWRqLmdldChhKT8uaGFzKGIpID8/IGZhbHNlOwogIGNvbnN0IHJlYXNvbnMgPSBuZXcgTWFwKCk7CiAgY29uc3QgZmxhZyA9IChhZGRyLCB3aHkpID0+IHsKICAgIGlmICghcmVhc29ucy5oYXMoYWRkcikpIHJlYXNvbnMuc2V0KGFkZHIsIG5ldyBTZXQoKSk7CiAgICByZWFzb25zLmdldChhZGRyKS5hZGQod2h5KTsKICB9OwogIGZvciAoY29uc3QgW2EsIG91dHNdIG9mIGFkaikgewogICAgZm9yIChjb25zdCBiIG9mIG91dHMpIHsKICAgICAgaWYgKGhhcyhiLCBhKSkgewogICAgICAgIGZsYWcoYSwgJ3JlY2lwcm9jYWwnKTsKICAgICAgICBmbGFnKGIsICdyZWNpcHJvY2FsJyk7CiAgICAgIH0KICAgICAgZm9yIChjb25zdCBjIG9mIGFkai5nZXQoYikgPz8gW10pIHsKICAgICAgICBpZiAoYyAhPT0gYSAmJiBjICE9PSBiICYmIGhhcyhjLCBhKSkgewogICAgICAgICAgZmxhZyhhLCAnY3ljbGUzJyk7CiAgICAgICAgICBmbGFnKGIsICdjeWNsZTMnKTsKICAgICAgICAgIGZsYWcoYywgJ2N5Y2xlMycpOwogICAgICAgIH0KICAgICAgfQogICAgfQogIH0KICByZXR1cm4gWy4uLnJlYXNvbnMua2V5cygpXS5zb3J0KCkubWFwKChhZGRyZXNzKSA9PiAoeyBhZGRyZXNzLCByZWFzb25zOiBbLi4ucmVhc29ucy5nZXQoYWRkcmVzcyldLnNvcnQoKSB9KSk7Cn0KCmFzeW5jIGZ1bmN0aW9uIHJlYWRQYWlycygpIHsKICBjb25zdCBsYXRlc3QgPSBhd2FpdCBzZXJ2ZXIuZ2V0TGF0ZXN0TGVkZ2VyKCk7CiAgY29uc3Qgc3RhcnRMZWRnZXIgPSBNYXRoLm1heCgxLCBsYXRlc3Quc2VxdWVuY2UgLSA5MDAwKTsgLy8gd2l0aGluIFJQQyByZXRlbnRpb24gKOKJpTE1NmsgcmV0dXJucyAwKQogIGNvbnN0IHJlcyA9IGF3YWl0IHNlcnZlci5nZXRFdmVudHMoewogICAgc3RhcnRMZWRnZXIsCiAgICBmaWx0ZXJzOiBbeyB0eXBlOiAnY29udHJhY3QnLCBjb250cmFjdElkczogW1JFUFVUQVRJT05dLCB0b3BpY3M6IFtbJyonLCAnKiddXSB9XSwKICAgIGxpbWl0OiAxMDAwLAogIH0pOwogIGNvbnN0IHBhaXJzID0gW107CiAgZm9yIChjb25zdCBldiBvZiByZXMuZXZlbnRzKSB7CiAgICBjb25zdCB0b3BpY3MgPSBldi50b3BpYy5tYXAodG9OYXRpdmUpOwogICAgY29uc3QgZGF0YSA9IHRvTmF0aXZlKGV2LnZhbHVlKTsKICAgIGlmICh0b3BpY3NbMF0gPT09ICd2b3VjaCcgJiYgdG9waWNzWzFdID09PSAnY2xhaW1lZCcgJiYgQXJyYXkuaXNBcnJheShkYXRhKSkgewogICAgICBwYWlycy5wdXNoKHsgZnJvbTogU3RyaW5nKGRhdGFbMV0pLCBjbGFpbWVyOiBTdHJpbmcoZGF0YVsyXSkgfSk7CiAgICB9CiAgfQogIHJldHVybiBwYWlyczsKfQoKYXN5bmMgZnVuY3Rpb24gc2V0RnJvemVuKGFkbWluLCB3aG8pIHsKICBjb25zdCBhY2MgPSBhd2FpdCBzZXJ2ZXIuZ2V0QWNjb3VudChhZG1pbi5wdWJsaWNLZXkoKSk7CiAgY29uc3QgdHggPSBuZXcgVHJhbnNhY3Rpb25CdWlsZGVyKGFjYywgeyBmZWU6ICcxMDAwMDAwJywgbmV0d29ya1Bhc3NwaHJhc2U6IE5ldHdvcmtzLlRFU1RORVQgfSkKICAgIC5hZGRPcGVyYXRpb24obmV3IENvbnRyYWN0KFJFV0FSRFMpLmNhbGwoJ3NldF9mcm96ZW4nLCBuZXcgQWRkcmVzcyh3aG8pLnRvU2NWYWwoKSwgbmF0aXZlVG9TY1ZhbCh0cnVlLCB7IHR5cGU6ICdib29sJyB9KSkpCiAgICAuc2V0VGltZW91dCg2MCkuYnVpbGQoKTsKICBjb25zdCBwcmVwYXJlZCA9IGF3YWl0IHNlcnZlci5wcmVwYXJlVHJhbnNhY3Rpb24odHgpOwogIHByZXBhcmVkLnNpZ24oYWRtaW4pOwogIGNvbnN0IHNlbnQgPSBhd2FpdCBzZXJ2ZXIuc2VuZFRyYW5zYWN0aW9uKHByZXBhcmVkKTsKICBpZiAoc2VudC5zdGF0dXMgPT09ICdFUlJPUicpIHRocm93IG5ldyBFcnJvcihKU09OLnN0cmluZ2lmeShzZW50LmVycm9yUmVzdWx0KSk7CiAgZm9yIChsZXQgaSA9IDA7IGkgPCAzMDsgaSsrKSB7CiAgICBjb25zdCByID0gYXdhaXQgc2VydmVyLmdldFRyYW5zYWN0aW9uKHNlbnQuaGFzaCk7CiAgICBpZiAoci5zdGF0dXMgPT09ICdTVUNDRVNTJykgcmV0dXJuIHNlbnQuaGFzaDsKICAgIGlmIChyLnN0YXR1cyA9PT0gJ0ZBSUxFRCcpIHRocm93IG5ldyBFcnJvcigndHggZmFpbGVkJyk7CiAgICBhd2FpdCBuZXcgUHJvbWlzZSgocmVzKSA9PiBzZXRUaW1lb3V0KHJlcywgMTAwMCkpOwogIH0KICB0aHJvdyBuZXcgRXJyb3IoJ25vdCBjb25maXJtZWQnKTsKfQoKKGFzeW5jICgpID0+IHsKICBjb25zdCBwYWlycyA9IGF3YWl0IHJlYWRQYWlycygpOwogIGNvbnNvbGUubG9nKGByZWFkICR7cGFpcnMubGVuZ3RofSBjbGFpbWVkLXZvdWNoIHBhaXIocykgaW4gdGhlIHdpbmRvd2ApOwogIGNvbnN0IGNhbmRpZGF0ZXMgPSBkZXRlY3RSaW5nQ2FuZGlkYXRlcyhwYWlycyk7CiAgaWYgKCFjYW5kaWRhdGVzLmxlbmd0aCkgeyBjb25zb2xlLmxvZygnd28gcmluZyBjYW5kaWRhdGVzIGRldGVjdGVkIOKchScpOyByZXR1cm47IH0KICBjb25zb2xlLmxvZChgZmxhZ2dlZCAke2NhbmRpZGF0ZXMubGVuZ3RofSByaW5nIGNhbmRpZGF0ZShzKTpgKTsKICBjYW5kaWRhdGVzLmZvckVhY2goKGMpID0+IGNvbnNvbGUubG9nKGAgICR7Yy5hZGRyZXNzfSAgWyR7Yy5yZWFzb25zLmpvaW4oJywgJyl9XWApKTsKICBjb25zdCBmbGFnZ2VkID0gY2FuZGlkYXRlcy5tYXAoKGMpID0+IGMuYWRkcmVzcyk7CiAgaWYgKCFBUFBMWSkgeyBjb25zb2xlLmxvZygnXG4oZHJ5LXJ1bikgc2V0IEFQUExZPTEgKyBBRE1JTl9TRUNSRVRfS0VZIHRvIGZyZWV6ZSBvbi1jaGFpbi4nKTsgcmV0dXJuOyB9CiAgY29uc3Qgc2VjcmV0ID0gcHJvY2Vzcy5lbnYuQURNSU5fU0VDUkVUX0tFWT;CiAgaWYgKCFzZWNyZXQpIHsgY29uc29sZS5lcnJvcignQVBQTFk9MSBuZWVkcyBBRE1JTl9TRUNSRVRfS0VZJyk7IHByb2Nlc3MuZXhpdCgxKTsgfQogIGNvbnN0IGFkbWluID0gS2V5cGFpci5mcm9tU2VjcmV0KHNlY3JldCk7CiAgZm9yIChjb25zdCB3aG8gb2YgZmxhZ2dlZCkgeyBjb25zb2xlLmxvZyhgZnJlZXppbmcgJHt3aG99IOKApiIpOyBjb25zb2xlLmxvZygndHggJyArIChhd2FpdCBzZXRGcm96ZW4oYWRtaW4sIHdobykpKTsgfQogIGNvbnNvbGUubG9nKCdkb25lIOKchScpOwp9KSgpLmNhdGNoKChlKSA9PiB7IGNvbnNvbGUuZXJyb3IoJ0ZBSUxFRCDinYwnLCBlLm1lc3NhZ2UpOyBwcm9jZXNzLmV4aXQoMSk7IH0pOwo=
+/**
+ * Blue anti-abuse — off-chain ring/cluster detector → on-chain `frozen` set.
+ *
+ * Reads the Reputation `vouch/claimed` events from RPC, builds (from→claimer) pairs,
+ * flags ring candidates (reciprocal A↔B pairs and A→B→C→A cycles), and calls
+ * `Rewards.set_frozen(addr, true)` so the contract blocks those accounts from claim/tip.
+ * The on-chain hook shipped with the Green rewards-hardening pass; this is the off-chain
+ * brain that drives it.
+ *
+ * Secret-free: the admin key is read from $ADMIN_SECRET_KEY (never committed).
+ * Dry-run by default — set APPLY=1 to actually freeze.
+ *
+ * Run from apps/web:  ADMIN_SECRET_KEY=S... [APPLY=1] node ../../scripts/freeze-rings.mjs
+ */
+// stellar-sdk lives in apps/web/node_modules (pnpm, no root hoist) — resolve from there.
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+const require = createRequire(join(dirname(fileURLToPath(import.meta.url)), '..', 'apps', 'web', 'package.json'));
+const {
+  Address, Contract, Keypair, Networks, TransactionBuilder, nativeToScVal, scValToNative, rpc, xdr,
+} = require('@stellar/stellar-sdk');
+
+const RPC = process.env.NEXT_PUBLIC_RPC_URL ?? 'https://soroban-testnet.stellar.org';
+const REPUTATION = process.env.NEXT_PUBLIC_REPUTATION_CONTRACT_ID ?? 'CBNIZXITUVTRVW6RZGEGCI7KNF46REG4EDM4XUVHKDAV63WOHWW75SZM';
+const REWARDS = process.env.NEXT_PUBLIC_REWARDS_CONTRACT_ID ?? 'CBUKGIFOEOS74I2IUUHYNRBZODQFOFCFWIJY3DUJHOUUJV7TT2QYADOU';
+const APPLY = process.env.APPLY === '1';
+const server = new rpc.Server(RPC);
+const toNative = (v) => scValToNative(typeof v === 'string' ? xdr.ScVal.fromXDR(v, 'base64') : v);
+
+/**
+ * Ring candidates in the claimed-vouch graph. Mirror of `detectRingCandidates` in
+ * packages/shared (the unit-tested canonical version) — keep the two in sync.
+ *
+ * Rules (belts/08):
+ * - reciprocal: A→B and B→A.
+ * - cycle3:     A→B→C→A with three distinct members.
+ * Self-loops and duplicate edges are ignored; a back-and-forth pair counts only as
+ * reciprocal. There is deliberately no raw-degree rule, because the most active honest
+ * users would be its first false positives.
+ *
+ * False positives: a small real community can form a genuine 3-cycle. Always review the
+ * dry-run output (each address is printed with the rule that flagged it) before APPLY=1,
+ * and unfreeze with `set_frozen(addr, false)` if a candidate turns out to be legitimate.
+ */
+function detectRingCandidates(pairs) {
+  const adj = new Map();
+  for (const { from, claimer } of pairs) {
+    if (from === claimer) continue;
+    if (!adj.has(from)) adj.set(from, new Set());
+    adj.get(from).add(claimer);
+  }
+  const has = (a, b) => adj.get(a)?.has(b) ?? false;
+  const reasons = new Map();
+  const flag = (addr, why) => {
+    if (!reasons.has(addr)) reasons.set(addr, new Set());
+    reasons.get(addr).add(why);
+  };
+  for (const [a, outs] of adj) {
+    for (const b of outs) {
+      if (has(b, a)) {
+        flag(a, 'reciprocal');
+        flag(b, 'reciprocal');
+      }
+      for (const c of adj.get(b) ?? []) {
+        if (c !== a && c !== b && has(c, a)) {
+          flag(a, 'cycle3');
+          flag(b, 'cycle3');
+          flag(c, 'cycle3');
+        }
+      }
+    }
+  }
+  return [...reasons.keys()].sort().map((address) => ({ address, reasons: [...reasons.get(address)].sort() }));
+}
+
+async function readPairs() {
+  const latest = await server.getLatestLedger();
+  const startLedger = Math.max(1, latest.sequence - 9000); // within RPC retention (≥16k returns 0)
+  const res = await server.getEvents({
+    startLedger,
+    filters: [{ type: 'contract', contractIds: [REPUTATION], topics: [['*', '*']] }],
+    limit: 1000,
+  });
+  const pairs = [];
+  for (const ev of res.events) {
+    const topics = ev.topic.map(toNative);
+    const data = toNative(ev.value);
+    if (topics[0] === 'vouch' && topics[1] === 'claimed' && Array.isArray(data)) {
+      pairs.push({ from: String(data[1]), claimer: String(data[2]) });
+    }
+  }
+  return pairs;
+}
+
+async function setFrozen(admin, who) {
+  const acc = await server.getAccount(admin.publicKey());
+  const tx = new TransactionBuilder(acc, { fee: '1000000', networkPassphrase: Networks.TESTNET })
+    .addOperation(new Contract(REWARDS).call('set_frozen', new Address(who).toScVal(), nativeToScVal(true, { type: 'bool' })))
+    .setTimeout(60).build();
+  const prepared = await server.prepareTransaction(tx);
+  prepared.sign(admin);
+  const sent = await server.sendTransaction(prepared);
+  if (sent.status === 'ERROR') throw new Error(JSON.stringify(sent.errorResult));
+  for (let i = 0; i < 30; i++) {
+    const r = await server.getTransaction(sent.hash);
+    if (r.status === 'SUCCESS') return sent.hash;
+    if (r.status === 'FAILED') throw new Error('tx failed');
+    await new Promise((res) => setTimeout(res, 1000));
+  }
+  throw new Error('not confirmed');
+}
+
+(async () => {
+  const pairs = await readPairs();
+  console.log(`read ${pairs.length} claimed-vouch pair(s) in the window`);
+  const candidates = detectRingCandidates(pairs);
+  if (!candidates.length) { console.log('no ring candidates detected ✅'); return; }
+  console.log(`flagged ${candidates.length} ring candidate(s):`);
+  candidates.forEach((c) => console.log(`  ${c.address}  [${c.reasons.join(', ')}]`));
+  const flagged = candidates.map((c) => c.address);
+  if (!APPLY) { console.log('\n(dry-run) set APPLY=1 + ADMIN_SECRET_KEY to freeze on-chain.'); return; }
+  const secret = process.env.ADMIN_SECRET_KEY;
+  if (!secret) { console.error('APPLY=1 needs ADMIN_SECRET_KEY'); process.exit(1); }
+  const admin = Keypair.fromSecret(secret);
+  for (const who of flagged) { console.log(`freezing ${who} …`); console.log('  tx ' + (await setFrozen(admin, who))); }
+  console.log('done ✅');
+})().catch((e) => { console.error('FAILED ❌', e.message); process.exit(1); });
